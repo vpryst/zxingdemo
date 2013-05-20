@@ -17,25 +17,25 @@ import com.google.zxing.ChecksumException;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.FormatException;
-import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.datamatrix.DataMatrixWriter;
 import com.google.zxing.datamatrix.DataMatrixReader;
+import com.google.zxing.datamatrix.DataMatrixWriter;
 import com.google.zxing.datamatrix.encoder.SymbolShapeHint;
 
 public class SampleReadWriteDMCode {
     public static void main(String[] args) throws IOException {
+        String encodeData = "sdfsgdafbsdgfjhsdgahsdlgkjahsd;flhka;sdgkjha;dsfklHS;GJHA;SGFLJDHSFLKGJHS;DKLGFJA'FGHDFK 50e8400-e29b-41d4-a716-446655440000|4";
         Map<EncodeHintType,Object> hints = new EnumMap<EncodeHintType,Object>(EncodeHintType.class);
         hints.put(EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE);
 
-        int bigEnough = 1020;
+        int bigEnough = 1000;
         DataMatrixWriter writer = new DataMatrixWriter();
-        BitMatrix matrix = writer.encode("Orest Ivasiv 50e8400-e29b-41d4-a716-446655440000", BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
+        BitMatrix matrix = writer.encode(encodeData, BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
 
         
         String fileName = "code.png";
@@ -44,7 +44,7 @@ public class SampleReadWriteDMCode {
         System.out.println("printing to " + file.getAbsolutePath());
         Desktop.getDesktop().open(file);
         
-    
+    /////////////////////////////////////////////////////////////////////////////////////////////////
         Map<DecodeHintType,Object> hintsRead = new EnumMap<DecodeHintType,Object>(DecodeHintType.class);
         hintsRead.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.DATA_MATRIX));
           hintsRead.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
@@ -54,9 +54,6 @@ public class SampleReadWriteDMCode {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
-
-    
     }
     public static String readDMCode(String filename,
              Map<DecodeHintType,?> hints)
@@ -72,7 +69,6 @@ public class SampleReadWriteDMCode {
         } catch (FormatException e) {
             e.printStackTrace();
         }
-
         return result.getText();
     }
     
