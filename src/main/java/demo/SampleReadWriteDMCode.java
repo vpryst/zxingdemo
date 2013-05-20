@@ -47,7 +47,6 @@ public class SampleReadWriteDMCode {
     
         Map<DecodeHintType,Object> hintsRead = new EnumMap<DecodeHintType,Object>(DecodeHintType.class);
         hintsRead.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.DATA_MATRIX));
-          //hintsRead.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
           hintsRead.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
         try {
             String data = readDMCode(file.getAbsolutePath(),  hintsRead);
