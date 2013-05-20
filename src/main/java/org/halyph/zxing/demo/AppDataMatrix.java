@@ -8,25 +8,31 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.util.EnumMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.*;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.datamatrix.DataMatrixWriter;
+import com.google.zxing.datamatrix.encoder.SymbolShapeHint;
 
 public class AppDataMatrix {
 
+	private static final String CHARSET_NAME = "ISO-8859-1";
+
 	public static void main(String[] args) {
-		Charset charset = Charset.forName("UTF-8");
+		
+		Charset charset = Charset.forName(CHARSET_NAME);
 		CharsetEncoder encoder = charset.newEncoder();
 		byte[] b = null;
 		try {
 			// Convert a string to UTF-8 bytes in a ByteBuffer
 			ByteBuffer bbuf = encoder
 					.encode(CharBuffer
-							.wrap("utf 8 characters - i used hebrew, but you should write some of your own language characters"));
+							.wrap("utf 8 charactersaracters"));
 			b = bbuf.array();
 		} catch (CharacterCodingException e) {
 			System.out.println(e.getMessage());
@@ -35,17 +41,20 @@ public class AppDataMatrix {
 		String data;
 		try {
             // get a byte matrix for the data
-            data = new String(b, "UTF-8");
+            data = new String(b, CHARSET_NAME);
             BitMatrix matrix = null;
-			int h = 100;
-			int w = 100;
-			com.google.zxing.Writer writer = new MultiFormatWriter();
+			int h = 1000;
+			int w = h;
+			com.google.zxing.Writer writer = new DataMatrixWriter();
 			try {
-				Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>(
-						2);
-				hints.put(EncodeHintType.CHARACTER_SET, "ISO-8859-1");
+				 Map<EncodeHintType,Object> hints = new EnumMap<EncodeHintType,Object>(EncodeHintType.class);
+				hints.put(EncodeHintType.CHARACTER_SET, CHARSET_NAME);
+				hints.put(EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE);
+				hints.put(EncodeHintType.MARGIN, 2);
+				
 				matrix = writer.encode(data,
-						BarcodeFormat.QR_CODE, w, h, hints);
+						BarcodeFormat.DATA_MATRIX, w, h, hints);
+				System.out.println("" + matrix.getWidth() + ":" + matrix.getHeight());
 			} catch (com.google.zxing.WriterException e) {
 				System.out.println(e.getMessage());
 			}
