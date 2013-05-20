@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.2</junit.version>
-		<zxing.version>2.2-SNAPSHOT</zxing.version>
+		<zxing.version>2.2</zxing.version>
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 	</properties>
 
@@ -51,13 +51,13 @@
 
 	<repositories>
 		<repository>
-			<id>google-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>
-		<repository>
-			<id>google-releases</id>
+			<id>google-releases</id>				 
 			<url>https://oss.sonatype.org/content/repositories/releases</url>
 		</repository>
+		<repository>
+			<id>google-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>		
 	</repositories>
 	
 	<build>
