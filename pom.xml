@@ -19,7 +19,6 @@
 
 
 	<dependencies>
-
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -51,26 +50,26 @@
 
 	<repositories>
 		<repository>
-			<id>google-releases</id>				 
+			<id>google-releases</id>
 			<url>https://oss.sonatype.org/content/repositories/releases</url>
 		</repository>
 		<repository>
 			<id>google-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>		
+		</repository>
 	</repositories>
-	
+
 	<build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

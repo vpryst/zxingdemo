@@ -29,39 +29,43 @@ import com.google.zxing.datamatrix.encoder.SymbolShapeHint;
 
 public class SampleReadWriteDMCode {
     public static void main(String[] args) throws IOException {
-        String encodeData = "sdfsgdafbsdgfjhsdgahsdlgkjahsd;flhka;sdgkjha;dsfklHS;GJHA;SGFLJDHSFLKGJHS;DKLGFJA'FGHDFK 50e8400-e29b-41d4-a716-446655440000|4";
-        Map<EncodeHintType,Object> hints = new EnumMap<EncodeHintType,Object>(EncodeHintType.class);
+        String encodeData =
+            "sdfsgdafbsdgfjhsdgahsdlgkjahsd;flhka;sdgkjha;dsfklHS;GJHA;SGFLJDHSFLKGJHS;DKLGFJA'FGHDFK 50e8400-e29b-41d4-a716-446655440000|4";
+        Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
         hints.put(EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE);
 
         int bigEnough = 1000;
         DataMatrixWriter writer = new DataMatrixWriter();
         BitMatrix matrix = writer.encode(encodeData, BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
+        System.out.println(matrix.getWidth());
 
-        
         String fileName = "code.png";
         File file = createTempFile(fileName);
         MatrixToImageWriter.writeToFile(matrix, "PNG", file);
         System.out.println("printing to " + file.getAbsolutePath());
         Desktop.getDesktop().open(file);
-        
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-        Map<DecodeHintType,Object> hintsRead = new EnumMap<DecodeHintType,Object>(DecodeHintType.class);
+
+        // ///////////////////////////////////////////////////////////////////////////////////////////////
+        Map<DecodeHintType, Object> hintsRead = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
         hintsRead.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.DATA_MATRIX));
-          hintsRead.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
-        try {
-            String data = readDMCode(file.getAbsolutePath(),  hintsRead);
-            System.out.println(data);
-        } catch (Exception e) {
-            e.printStackTrace();
+        hintsRead.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
+        for (int i = 1; i < 9; i++) {
+            try {
+                // String data = readDMCode(file.getAbsolutePath(), hintsRead);
+                String data = readDMCode("img/" + i + ".png", hintsRead);
+                System.out.println(data);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    public static String readDMCode(String filename,
-             Map<DecodeHintType,?> hints)
-            throws FileNotFoundException, IOException, NotFoundException {
-        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(
-                new BufferedImageLuminanceSource(
-                        ImageIO.read(new FileInputStream(filename)))));
-        Result result =null;
+
+    public static String readDMCode(String filename, Map<DecodeHintType, ?> hints) throws FileNotFoundException, IOException,
+        NotFoundException {
+        BinaryBitmap binaryBitmap =
+            new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(filename)))));
+        Result result = null;
         try {
             result = new DataMatrixReader().decode(binaryBitmap, hints);
         } catch (ChecksumException e) {
@@ -71,13 +75,10 @@ public class SampleReadWriteDMCode {
         }
         return result.getText();
     }
-    
-    
-    
 
-     private static File createTempFile(String fileName) throws IOException {
-            File file = File.createTempFile("DataMatrix", ".png");
-            return file;
-     }
-        
+    private static File createTempFile(String fileName) throws IOException {
+        File file = File.createTempFile("DataMatrix", ".png");
+        return file;
+    }
+
 }
