@@ -48,11 +48,6 @@ public class ScanImageRectangle {
             System.out.println("ScanImageRectangle.main()");
             e.printStackTrace();
         }
-        System.out.println(res.getPoints().length);
-        for (int i = 0; i < res.getPoints().length; i++) {
-            System.out.println(res.getPoints()[i]);
-        }
-        System.out.println(res.getBits());
 
     }
 
