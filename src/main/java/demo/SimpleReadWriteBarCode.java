@@ -101,7 +101,7 @@ public class SimpleReadWriteBarCode {
          */
         Map<DecodeHintType, Object> hintsRead = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
         hintsRead.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.DATA_MATRIX));
-        // hintsRead.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
+        hintsRead.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
         /**
          * read DataMatrix
          */
