@@ -14,11 +14,8 @@ import com.google.zxing.ChecksumException;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
-import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
-import com.google.zxing.common.DetectorResult;
 import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.qrcode.QRCodeReader;
 
 public class App {
     /**
@@ -31,18 +28,17 @@ public class App {
     public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
         Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
-        hints.put(DecodeHintType.TRY_HARDER, Arrays.asList(BarcodeFormat.QR_CODE));
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
         
-        File file = new File("img/rectangle_qr_rot.png");
+        File file = new File("img/rectangle_qr_rot_r_60.jpg");
         BinaryBitmap binaryBitmap = 
             new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
-        //Result result = new QRCodeReader().decode(binaryBitmap, hints);
-        Detector det = new Detector(binaryBitmap.getBlackMatrix());
-        DetectorResult res = det.detect();
-        System.out.println(res.getPoints().length);
-        for (int i = 0; i<res.getPoints().length; i++) {
-            System.out.println(res.getPoints()[i]);
-        }
+        
+        FinderPatternFinder find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
+        FinderPatternInfo findInfo = find.find(hints);
+        System.out.println(findInfo.getBottomLeft());
+        System.out.println(findInfo.getTopLeft());
+        System.out.println(findInfo.getTopRight());
 
     }
 

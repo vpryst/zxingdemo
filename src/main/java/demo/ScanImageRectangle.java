@@ -13,10 +13,14 @@ import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
+import com.google.zxing.ResultPoint;
+import com.google.zxing.ResultPointCallback;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.DetectorResult;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.detector.Detector;
+import com.google.zxing.qrcode.detector.FinderPatternFinder;
+import com.google.zxing.qrcode.detector.FinderPatternInfo;
 
 public class ScanImageRectangle {
 
@@ -48,7 +52,15 @@ public class ScanImageRectangle {
             System.out.println("ScanImageRectangle.main()");
             e.printStackTrace();
         }
-
+        try {
+            ResultPointCallback ress = null;
+            FinderPatternFinder find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
+            
+            
+        } catch (NotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
