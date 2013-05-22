@@ -2,10 +2,15 @@ package demo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
 import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -18,20 +23,37 @@ public class ScanImageRectangle {
     /**
      * @param args
      * @throws IOException
-     * @throws NotFoundException 
-     * @throws FormatException 
+     * @throws NotFoundException
+     * @throws FormatException
      */
-    public static void main(String[] args) throws IOException, NotFoundException, FormatException {
-        File file = new File("img/rectangle_qr_rot.png");
+    public static void main(String[] args) throws IOException, FormatException {
+        File file = new File("img/rectangle_qr_rot_r_60.jpg");
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
-        
-        Detector det = new Detector(binaryBitmap.getBlackMatrix());
-        DetectorResult res = det.detect();
+        Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+
+        Detector det = null;
+        DetectorResult res = null;
+        try {
+            det = new Detector(binaryBitmap.getBlackMatrix());
+            res = det.detect(hints);
+
+            System.out.println(res.getPoints().length);
+            for (int i = 0; i < res.getPoints().length; i++) {
+                System.out.println(res.getPoints()[i]);
+            }
+            System.out.println(res.getBits());
+        } catch (NotFoundException e) {
+            System.out.println("ScanImageRectangle.main()");
+            e.printStackTrace();
+        }
         System.out.println(res.getPoints().length);
-        for (int i = 0; i<res.getPoints().length; i++) {
+        for (int i = 0; i < res.getPoints().length; i++) {
             System.out.println(res.getPoints()[i]);
         }
         System.out.println(res.getBits());
+
     }
 
 }

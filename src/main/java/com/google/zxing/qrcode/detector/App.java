@@ -31,6 +31,7 @@ public class App {
     public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
         Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
+        hints.put(DecodeHintType.TRY_HARDER, Arrays.asList(BarcodeFormat.QR_CODE));
         
         File file = new File("img/rectangle_qr_rot.png");
         BinaryBitmap binaryBitmap = 
