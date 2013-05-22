@@ -17,7 +17,13 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
-public class App {
+/**
+ * This class search marker at page and and return coordinate 
+ * @author vpryst
+ *
+ */
+
+public class FinderMarkerDemo {
     /**
      * @param args
      * @throws IOException 
@@ -26,14 +32,21 @@ public class App {
      * @throws NotFoundException 
      */
     public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
+        
+        /**
+         * Settings of hints not important
+         */
         Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
         hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
         
-        File file = new File("img/rectangle_qr_rot_r_60.jpg");
+        File file = new File("img/rectangle.png");
         BinaryBitmap binaryBitmap = 
             new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
         
+        /**
+         * Use FinderPatternFinder from QR-Code  
+         */
         FinderPatternFinder find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
         FinderPatternInfo findInfo = find.find(hints);
         System.out.println(findInfo.getBottomLeft());
