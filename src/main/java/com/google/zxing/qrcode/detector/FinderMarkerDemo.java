@@ -40,7 +40,7 @@ public class FinderMarkerDemo {
         hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
         hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
         
-        File file = new File("img/rectangle.png");
+        File file = new File("img/scaned_files/first_page.png");
         BinaryBitmap binaryBitmap = 
             new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
         

@@ -31,7 +31,7 @@ public class ScanImageRectangle {
      * @throws FormatException
      */
     public static void main(String[] args) throws IOException, FormatException {
-        File file = new File("img/rectangle_qr_rot_r_60.jpg");
+        File file = new File("img/scaned_files/first_page.jpg");
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
         Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
