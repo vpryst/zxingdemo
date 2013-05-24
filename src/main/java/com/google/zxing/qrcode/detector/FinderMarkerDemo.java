@@ -88,6 +88,7 @@ public class FinderMarkerDemo {
         }
         try {
             FinderPatternInfo findInfo = find.find(hints);
+            
             setBottomLeft(findInfo.getBottomLeft());
             setTopLeft(findInfo.getTopLeft());
             setTopRight(findInfo.getTopRight());
