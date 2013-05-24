@@ -31,8 +31,35 @@ public class FinderMarkerDemo {
      * @throws ChecksumException 
      * @throws NotFoundException 
      */
-    public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
-        
+    private FinderPattern bottomLeft;
+    private FinderPattern topLeft;
+    private FinderPattern topRight;
+    
+    public FinderPattern getBottomLeft() {
+        return bottomLeft;
+    }
+
+    public FinderPattern getTopLeft() {
+        return topLeft;
+    }
+
+    public FinderPattern getTopRight() {
+        return topRight;
+    }
+
+    public void setBottomLeft(FinderPattern bottomleft) {
+        this.bottomLeft = bottomleft;
+    }
+
+    public void setTopLeft(FinderPattern topLeft) {
+        this.topLeft = topLeft;
+    }
+
+    public void setTopRight(FinderPattern topRight) {
+        this.topRight = topRight;
+    }
+
+    public FinderMarkerDemo(String fileName) {
         /**
          * Settings of hints not important
          */
@@ -40,19 +67,45 @@ public class FinderMarkerDemo {
         hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
         hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
         
-        File file = new File("img/scaned_files/first_page.png");
-        BinaryBitmap binaryBitmap = 
-            new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
         
         /**
          * Use FinderPatternFinder from QR-Code  
          */
-        FinderPatternFinder find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
-        FinderPatternInfo findInfo = find.find(hints);
-        System.out.println(findInfo.getBottomLeft());
-        System.out.println(findInfo.getTopLeft());
-        System.out.println(findInfo.getTopRight());
-
+        File file = new File(fileName);
+        BinaryBitmap binaryBitmap = null;
+        try {
+            binaryBitmap = 
+                new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        FinderPatternFinder find = null;
+        try {
+            find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            FinderPatternInfo findInfo = find.find(hints);
+            setBottomLeft(findInfo.getBottomLeft());
+            setTopLeft(findInfo.getTopLeft());
+            setTopRight(findInfo.getTopRight());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
+        
+        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/first_page.png");
+        
+        System.out.println(demo.getBottomLeft());
+        System.out.println(demo.getTopLeft());
+        System.out.println(demo.getTopRight());
+        
+        
     }
 
 }
