@@ -18,23 +18,60 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 /**
- * This class search marker at page and and return coordinate 
+ * This class search marker at page and and return coordinate
+ * 
  * @author vpryst
- *
  */
 
 public class FinderMarkerDemo {
     /**
      * @param args
-     * @throws IOException 
-     * @throws FormatException 
-     * @throws ChecksumException 
-     * @throws NotFoundException 
+     * @throws IOException
+     * @throws FormatException
+     * @throws ChecksumException
+     * @throws NotFoundException
      */
     private FinderPattern bottomLeft;
     private FinderPattern topLeft;
     private FinderPattern topRight;
-    
+
+    public FinderMarkerDemo(String fileName) {
+        /**
+         * Settings of hints not important
+         */
+        Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+
+        /**
+         * Use FinderPatternFinder from QR-Code
+         */
+        File file = new File(fileName);
+        BinaryBitmap binaryBitmap = null;
+        try {
+            binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FinderPatternFinder find = null;
+        try {
+            find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            FinderPatternInfo findInfo = find.find(hints);
+
+            setBottomLeft(findInfo.getBottomLeft());
+            setTopLeft(findInfo.getTopLeft());
+            setTopRight(findInfo.getTopRight());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public FinderPattern getBottomLeft() {
         return bottomLeft;
     }
@@ -59,54 +96,14 @@ public class FinderMarkerDemo {
         this.topRight = topRight;
     }
 
-    public FinderMarkerDemo(String fileName) {
-        /**
-         * Settings of hints not important
-         */
-        Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
-        hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
-        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
-        
-        
-        /**
-         * Use FinderPatternFinder from QR-Code  
-         */
-        File file = new File(fileName);
-        BinaryBitmap binaryBitmap = null;
-        try {
-            binaryBitmap = 
-                new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        FinderPatternFinder find = null;
-        try {
-            find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            FinderPatternInfo findInfo = find.find(hints);
-            
-            setBottomLeft(findInfo.getBottomLeft());
-            setTopLeft(findInfo.getTopLeft());
-            setTopRight(findInfo.getTopRight());
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        
-    }
-    
     public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
-        
-        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/first_page.png");
-        
+
+        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/first_page_gs.png");
+
         System.out.println(demo.getBottomLeft());
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
-        
-        
+
     }
 
 }

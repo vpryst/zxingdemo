@@ -16,7 +16,7 @@ public class ManipulateImage {
 
         // The image URL - change to where your image file is located!
 
-        String imageURL = "img/rectangle_qr.png";
+        String imageURL = "img/scaned_files/first_page.png";
 
         // This call returns immediately and pixels are loaded in the background
 

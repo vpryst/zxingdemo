@@ -20,10 +20,13 @@ public class FinderObjectAfterScan {
         int COVER_TOP = (int) mm2px(pt2mm(PAGE_SIZE_HEIGHT - 674), dpi);
         int COVER_BOTTOM = (int) mm2px(pt2mm(PAGE_SIZE_HEIGHT - 584), dpi);
         
-        System.out.println(COVER_LEFT);
-        System.out.println(COVER_RIGHT);
-        System.out.println(COVER_TOP);
-        System.out.println(COVER_BOTTOM);
+//        System.out.println(COVER_LEFT);
+//        System.out.println(COVER_RIGHT);
+//        System.out.println(COVER_TOP);
+//        System.out.println(COVER_BOTTOM);
+        
+        System.out.println(mm2px(pt2mm(806), 300));
+        
         
     }
 
