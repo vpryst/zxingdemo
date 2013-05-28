@@ -92,8 +92,9 @@ public class TransformTransRotation extends JComponent {
 
     // Transform the Graphics2D.
       AffineTransform rat = new AffineTransform();
-      rat.setToTranslation(100, 0);
-      rat.rotate(Math.PI / 6);
+      //rat.setToTranslation(100, 100);
+      rat.translate(100, 0);
+      rat.rotate(15*Math.PI / 180);
       g2.transform(rat);
 
     // Draw the "new" shapes in dashed.

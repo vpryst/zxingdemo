@@ -25,7 +25,7 @@ public class FinderObjectAfterScan {
 //        System.out.println(COVER_TOP);
 //        System.out.println(COVER_BOTTOM);
         
-        System.out.println(mm2px(pt2mm(806), 300));
+        System.out.println(mm2px(pt2mm(841-806), 300));
         
         
     }

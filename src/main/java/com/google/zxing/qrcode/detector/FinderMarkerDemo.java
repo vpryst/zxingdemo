@@ -98,7 +98,7 @@ public class FinderMarkerDemo {
 
     public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
 
-        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/first_page_adobe_reader.png");
+        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/first_page_gs_ed_rt15.jpg");
 
         System.out.println(demo.getBottomLeft());
         System.out.println(demo.getTopLeft());
