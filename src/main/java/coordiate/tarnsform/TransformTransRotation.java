@@ -93,7 +93,7 @@ public class TransformTransRotation extends JComponent {
     // Transform the Graphics2D.
       AffineTransform rat = new AffineTransform();
       //rat.setToTranslation(100, 100);
-      rat.translate(100, 0);
+      rat. translate(100, 0);
       rat.rotate(15*Math.PI / 180);
       g2.transform(rat);
 

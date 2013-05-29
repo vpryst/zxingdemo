@@ -33,47 +33,22 @@ public class FindMarkerAfterScanDemo {
         marker[1][1] = (int) mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
         marker[1][2] = (int) mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
 
-        Point p1 = new Point((int) (finderMarker.getBottomLeft().getX()), (int) (finderMarker.getBottomLeft().getY()));
-        Point p2 = new Point((int) (finderMarker.getTopLeft().getX()), (int) (finderMarker.getTopLeft().getY()));
-        relative.rotate(calcRotationAngleInDegrees(p1, p2)*Math.PI/180);
-        System.out.println(calcRotationAngleInDegrees(p1, p2)*Math.PI/180);
-        
-        /*Point p3 = new Point(marker[0][1], marker[1][1]);
-        Point p4 = new Point((int) (finderMarker.getTopLeft().getX()), (int)(finderMarker.getTopLeft().getY()));
-        relative.transform(p3, p2);*/
-        
-        if (calcRotationAngleInDegrees(p1, p2) <= 180) {
-            relative.setToTranslation(finderMarker.getTopLeft().getX() - marker[0][1], finderMarker.getTopLeft().getY() - marker[1][1]);
-        } else {
-            relative.setToTranslation(finderMarker.getTopLeft().getX() - marker[0][1], finderMarker.getTopLeft().getY() - marker[1][1]);
-        }
-        //System.out.println(relative.transform(p3, p2));
-        
-        System.out.println(relative.getTranslateX());
-        System.out.println(relative.getTranslateY());
-        
-        System.out.println(finderMarker.getTopLeft().getX() - marker[0][1]);
-        System.out.println(finderMarker.getTopLeft().getY() - marker[1][1]);
+        relative.setToTranslation(finderMarker.getTopLeft().getX(), finderMarker.getTopLeft().getY());
+        relative.rotate(findMarkerAngle(finderMarker));
     }
 
     public int[] findRelativePx(int etalonXPx, int etalonYPx) {
-        relativeX = (int) (etalonXPx + relative.getTranslateX());
-        relativeY = (int) (etalonYPx + relative.getTranslateY());
-        return new int[]{relativeX, relativeY};
+        relativeX = (int) (etalonXPx - marker[0][1]);
+        relativeY = (int) (etalonYPx - marker[1][1]);
+        Point2D transformCoordinate = returnPoint(relativeX, relativeY);
+        return new int[]{(int) (transformCoordinate.getX()), (int) (transformCoordinate.getY())};
     }
 
     public int[] findRelativePt(int etalonXPt, int etalonYPt) {
-        relativeX = (int) (mm2px(pt2mm(etalonXPt), dpi) + relative.getShearX());
-        relativeY = (int) (mm2px(pt2mm(pageSizeHeight - etalonYPt), dpi) + relative.getShearY());
-        return new int[]{relativeX, relativeY};
-    }
-
-    public void afintr() {
-        AffineTransform temp = new AffineTransform();
-        temp.rotate(0.5);
-
-        System.out.println(temp.getShearX());
-        System.out.println(temp.getShearY());
+        relativeX = (int) (mm2px(pt2mm(etalonXPt), dpi) - marker[0][1]);
+        relativeY = (int) (mm2px(pt2mm(pageSizeHeight - etalonYPt), dpi) - marker[1][1]);
+        Point2D transformCoordinate = returnPoint(relativeX, relativeY);
+        return new int[]{(int) (transformCoordinate.getX()), (int) (transformCoordinate.getY())};
     }
 
     /**
@@ -114,9 +89,17 @@ public class FindMarkerAfterScanDemo {
         return angle;
     }
 
-    public double getShaer(int etalonX, int etalonY, int realX, int realY) {
+    // find angle beet
+    public double findMarkerAngle(FinderMarkerDemo find) {
+        Point p1 = new Point((int) (finderMarker.getBottomLeft().getX()), (int) (finderMarker.getBottomLeft().getY()));
+        Point p2 = new Point((int) (finderMarker.getTopLeft().getX()), (int) (finderMarker.getTopLeft().getY()));
+        return calcRotationAngleInDegrees(p1, p2) * Math.PI / 180;
+    }
 
-        return 1.0;
+    public Point2D returnPoint(int pX, int pY) {
+        Point2D pointBefore = new Point2D.Double(pX, pY);
+        Point2D pointAfter = relative.transform(pointBefore, null);
+        return pointAfter;
     }
 
     /**
@@ -124,7 +107,8 @@ public class FindMarkerAfterScanDemo {
      */
     public static void main(String[] args) {
 
-        FindMarkerAfterScanDemo demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page_gs_ed_rt15.jpg", 300, 841);
+        FindMarkerAfterScanDemo demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page_gs_ed.png", 300, 841);
+
         int[] temp = demo.findRelativePx(421, 1071);
         System.out.println("Relative Cover bottom left X:" + temp[0] + " Y:" + temp[1]);
         temp = demo.findRelativePx(2054, 696);
@@ -134,12 +118,6 @@ public class FindMarkerAfterScanDemo {
         temp = demo.findRelativePt(532, 126);
         System.out.println("Relative footer top right X:" + temp[0] + " Y:" + temp[1]);
 
-        
-        
-        Point p1 = new Point(1031, 163);
-        Point p2 = new Point(3133, 729);
-  System.out.println(FindMarkerAfterScanDemo.calcRotationAngleInDegrees(p1, p2));      
-        
         // demo = new FindMarkerAfterScanDemo("img/scaned_files/second_page_.png", 300, 841);
         // System.out.println("Relative singleChoice bottom left X:" + demo.findRelativePt(53, 679)[0] + " Y:" + demo.findRelativePt(53,
         // 679)[1]);
