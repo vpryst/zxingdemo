@@ -1,17 +1,16 @@
 package coordiate.tarnsform;
 
-import static coordiate.tarnsform.UnitConv.*;
+import static coordiate.tarnsform.UnitConv.mm2px;
+import static coordiate.tarnsform.UnitConv.pt2mm;
 
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.AffineTransformOp;
-
-import org.jfree.util.Rotation;
+import java.awt.geom.Point2D.Double;
 
 import com.google.zxing.qrcode.detector.FinderMarkerDemo;
 
-public class FindMarkerAfterScanDemo {
+public class FindMarkerAfterScanDemo implements CoordinateTransformer {
     private int dpi;
     private int pageSizeHeight;
     private int[][] marker = new int[3][3];
@@ -19,36 +18,45 @@ public class FindMarkerAfterScanDemo {
     private FinderMarkerDemo finderMarker;
 
     private AffineTransform relative = new AffineTransform();
-    private int relativeX;
-    private int relativeY;
 
+    /**
+     * 
+     * @param fileName - source file to take markers
+     * @param dpiPx - set dpi of image
+     * @param pageSizeHeightPt - Set size page in pt
+     */
     public FindMarkerAfterScanDemo(String fileName, int dpiPx, int pageSizeHeightPt) {
         this.dpi = dpiPx;
         this.pageSizeHeight = pageSizeHeightPt;
+        
         finderMarker = new FinderMarkerDemo(fileName);// "img/scaned_files/first_page.png"
-        marker[0][0] = (int) mm2px(pt2mm(36), dpi); // 150px
-        marker[0][1] = (int) mm2px(pt2mm(36), dpi); // 150px
-        marker[0][2] = (int) mm2px(pt2mm(559), dpi); // 2329
-        marker[1][0] = (int) mm2px(pt2mm(pageSizeHeight - 36), dpi); // 3354px
-        marker[1][1] = (int) mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
-        marker[1][2] = (int) mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
+        // BottomLeft
+        marker[0][X] = (int) mm2px(pt2mm(36), dpi); // 150px
+        marker[0][Y] = (int) mm2px(pt2mm(pageSizeHeight - 36), dpi); // 3354px
+        // TopLeft
+        marker[1][X] = (int) mm2px(pt2mm(36), dpi); // 150px
+        marker[1][Y] = (int) mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
+        // TopRight
+        marker[2][X] = (int) mm2px(pt2mm(559), dpi); // 2329
+        marker[2][Y] = (int) mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
 
         relative.setToTranslation(finderMarker.getTopLeft().getX(), finderMarker.getTopLeft().getY());
         relative.rotate(findMarkerAngle(finderMarker));
     }
 
-    public int[] findRelativePx(int etalonXPx, int etalonYPx) {
-        relativeX = (int) (etalonXPx - marker[0][1]);
-        relativeY = (int) (etalonYPx - marker[1][1]);
+    // Find relative coordinate by pixel at image
+    public Point2D.Double findRelativePx(int etalonXPx, int etalonYPx) {
+        double relativeX = etalonXPx - marker[1][X];
+        double relativeY = etalonYPx - marker[1][Y];
         Point2D transformCoordinate = returnPoint(relativeX, relativeY);
-        return new int[]{(int) (transformCoordinate.getX()), (int) (transformCoordinate.getY())};
+        return (Double) transformCoordinate;
     }
-
-    public int[] findRelativePt(int etalonXPt, int etalonYPt) {
-        relativeX = (int) (mm2px(pt2mm(etalonXPt), dpi) - marker[0][1]);
-        relativeY = (int) (mm2px(pt2mm(pageSizeHeight - etalonYPt), dpi) - marker[1][1]);
+    // Find relative coordinate by point at image
+    public Point2D.Double findRelativePt(int etalonXPt, int etalonYPt) {
+        double relativeX = mm2px(pt2mm(etalonXPt), dpi) - marker[1][X];
+        double relativeY = mm2px(pt2mm(pageSizeHeight - etalonYPt), dpi) - marker[1][Y];
         Point2D transformCoordinate = returnPoint(relativeX, relativeY);
-        return new int[]{(int) (transformCoordinate.getX()), (int) (transformCoordinate.getY())};
+        return (Double) transformCoordinate;
     }
 
     /**
@@ -85,20 +93,19 @@ public class FindMarkerAfterScanDemo {
         if (angle < 0) {
             angle += 360;
         }
-
         return angle;
     }
 
-    // find angle beet
+    // find angle use marker
     public double findMarkerAngle(FinderMarkerDemo find) {
         Point p1 = new Point((int) (finderMarker.getBottomLeft().getX()), (int) (finderMarker.getBottomLeft().getY()));
         Point p2 = new Point((int) (finderMarker.getTopLeft().getX()), (int) (finderMarker.getTopLeft().getY()));
         return calcRotationAngleInDegrees(p1, p2) * Math.PI / 180;
     }
 
-    public Point2D returnPoint(int pX, int pY) {
-        Point2D pointBefore = new Point2D.Double(pX, pY);
-        Point2D pointAfter = relative.transform(pointBefore, null);
+    public Point2D.Double returnPoint(double pX, double pY) {
+        Point2D.Double pointBefore = new Point2D.Double(pX, pY);
+        Point2D.Double pointAfter = (Double) relative.transform(pointBefore, null);
         return pointAfter;
     }
 
@@ -106,41 +113,39 @@ public class FindMarkerAfterScanDemo {
      * @param args
      */
     public static void main(String[] args) {
+        
+        FindMarkerAfterScanDemo demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page_gs_ed_rt-15.jpg", 300, 841);
 
-        FindMarkerAfterScanDemo demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page_gs_ed.png", 300, 841);
-
-        int[] temp = demo.findRelativePx(421, 1071);
-        System.out.println("Relative Cover bottom left X:" + temp[0] + " Y:" + temp[1]);
+        Point2D.Double temp = demo.findRelativePx(421, 1071);
+        System.out.println("Relative Cover bottom left X:" + temp.x + " Y:" + temp.y);
         temp = demo.findRelativePx(2054, 696);
-        System.out.println("Relative Cover top right X:" + temp[0] + " Y:" + temp[1]);
+        System.out.println("Relative Cover top right X:" + temp.x + " Y:" + temp.y);
         temp = demo.findRelativePt(480, 73);
-        System.out.println("Relative footer bottom left X:" + temp[0] + " Y:" + temp[1]);
+        System.out.println("Relative footer bottom left X:" + temp.x + " Y:" + temp.y);
         temp = demo.findRelativePt(532, 126);
-        System.out.println("Relative footer top right X:" + temp[0] + " Y:" + temp[1]);
+        System.out.println("Relative footer top right X:" + temp.x + " Y:" + temp.y);
+    }
 
-        // demo = new FindMarkerAfterScanDemo("img/scaned_files/second_page_.png", 300, 841);
-        // System.out.println("Relative singleChoice bottom left X:" + demo.findRelativePt(53, 679)[0] + " Y:" + demo.findRelativePt(53,
-        // 679)[1]);
-        // System.out.println("Relative singleChoice top right X:" + demo.findRelativePt(61, 687)[0] + " Y:" + demo.findRelativePt(61,
-        // 687)[1]);
+    @Override
+    public Double convertPdfToImageCoordinate(Point2D.Double src) {
+        double relativeX = mm2px(pt2mm(src.x), dpi);
+        double relativeY = mm2px(pt2mm(pageSizeHeight - src.y), dpi);
+        return new Point2D.Double(relativeX, relativeY);
+    }
 
-        // demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page.png", 300, 841);
-        // System.out.println("Relative Cover bottom left X:" + demo.findRelativePt(421, 1071)[0] + " Y:" + demo.findRelativePt(421,
-        // 1071)[1]);
-        // System.out.println("Relative Cover top right X:" + demo.findRelativePt(2054, 696)[0] + " Y:" + demo.findRelativePt(2054,
-        // 696)[1]);
-        //
-        // demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page.png", 300, 841);
-        // System.out.println("Relative Cover bottom left X:" + demo.findRelativePt(421, 1071)[0] + " Y:" + demo.findRelativePt(421,
-        // 1071)[1]);
-        // System.out.println("Relative Cover top right X:" + demo.findRelativePt(2054, 696)[0] + " Y:" + demo.findRelativePt(2054,
-        // 696)[1]);
-        //
-        // demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page.png", 300, 841);
-        // System.out.println("Relative Cover bottom left X:" + demo.findRelativePt(421, 1071)[0] + " Y:" + demo.findRelativePt(421,
-        // 1071)[1]);
-        // System.out.println("Relative Cover top right X:" + demo.findRelativePt(2054, 696)[0] + " Y:" + demo.findRelativePt(2054,
-        // 696)[1]);
+    @Override
+    public Double affineTransform(Double src, Double center, double angle) {
+        relative.setToTranslation(center.x, center.y);
+        relative.rotate(angle);
+        Point2D dst = relative.transform(src, null);
+        return (Double) dst;
+    }
+
+    @Override
+    public Double convertPdfToImageRelativeCoordinate(Double src) {
+        double relativeX = src.x - marker[1][X];
+        double relativeY = src.y - marker[1][Y];
+        return new Point2D.Double(relativeX, relativeY);
     }
 
 }
