@@ -31,4 +31,8 @@ public interface CoordinateTransformer {
 	 */
 	Point2D.Double affineTransform(Point2D.Double src, Point2D.Double center, double angle);
 	
+	double getAngle();
+	
+	Point2D.Double getTransform();
+	
 }
