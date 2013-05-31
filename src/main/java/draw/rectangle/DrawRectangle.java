@@ -5,6 +5,7 @@ import static coordiate.tarnsform.UnitConv.pt2mm;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -40,56 +41,13 @@ public class DrawRectangle {
     public void drawRectangle(Point2D.Double XY, Point2D.Double size, BufferedImage img) {
         Graphics2D graph = img.createGraphics();
         graph.setColor(Color.RED);
-        graph.setStroke(new BasicStroke(2f));
+        graph.setStroke(new BasicStroke(4f));
 
         graph.translate(scan.getTransform().x, scan.getTransform().y);
         graph.rotate(scan.getAngle());
 
         graph.drawRect((int) (XY.x), (int) (XY.y), (int) (size.x), (int) (size.y));
         graph.dispose();
-    }
-    
-    public BufferedImage getPartImage (BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
-        AffineTransform at = new AffineTransform();
-        
-        Point2D.Double topLeft = new Point2D.Double(leftPt, topPt);
-        Point2D.Double bottomRight = new Point2D.Double(rightPt, bottomPt);
-        
-        at.setToTranslation(scan.getTransform().x, scan.getTransform().y);
-        at.rotate(-scan.getAngle());
-        
-        Point2D pointLeftTop = scan.convertPdfToImageCoordinate(topLeft);
-        //pointLeftTop = at.transform(pointLeftTop, null);
-        Point2D pointRightBottom = scan.convertPdfToImageCoordinate(bottomRight);
-        //pointRightBottom = at.transform(pointLeftTop, null);
-        Point2D size = new Point2D.Double(pointRightBottom.getX() - pointLeftTop.getX(), pointRightBottom.getY() - pointLeftTop.getY());
-        
-        //pointLeftTop = at.transform(pointLeftTop, null);
-        
-        BufferedImage before = img;
-        int w = (int) size.getX();//before.getWidth();
-        int h = (int) size.getY();//before.getHeight();
-        
-        BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        
-        AffineTransformOp scaleOp = 
-           new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-        after = scaleOp.filter(before.getSubimage((int) pointLeftTop.getX(),(int) pointLeftTop.getY(), (int) size.getX(), (int) size.getY()), null);
-        return after;
-        /*
-        Graphics2D graph = img.createGraphics();
-        graph.setColor(Color.RED);
-        graph.setStroke(new BasicStroke(2f));
-
-        graph.translate(scan.getTransform().x, scan.getTransform().y);
-        graph.rotate(scan.getAngle());
-        
-        
-        
-        graph.dispose();
-        
-        return af;*/
-
     }
 
     /**
@@ -121,7 +79,7 @@ public class DrawRectangle {
         
 
         ImageIO.write(img, "png", new File("img/scaned_files/template.png"));
-        ImageIO.write(draw.getPartImage(img, 49.074997, 650.0, 545.925, 782.0), "png", new File("img/scaned_files/sub.png"));
+
         
         System.out.println("Finish");
     }

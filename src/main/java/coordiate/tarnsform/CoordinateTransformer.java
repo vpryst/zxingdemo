@@ -29,7 +29,7 @@ public interface CoordinateTransformer {
 	 * @param angle image rotated
 	 * @return
 	 */
-	Point2D.Double affineTransform(Point2D.Double src, Point2D.Double center, double angle);
+	Point2D.Double affineTransform(Point2D.Double src);
 	
 	double getAngle();
 	

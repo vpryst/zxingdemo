@@ -116,7 +116,7 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
 
         FindMarkerAfterScanDemo demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page_gs_ed_rt15.png", 300, 841);
         Point2D.Double src = new Point2D.Double(101, 584);
-        Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src), demo.getTransform(), demo.getAngle());
+        Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
         System.out.println("Relative Cover bottom left X:" + temp.x + " Y:" + temp.y);
         temp = demo.findRelativePx(2054, 696);
         System.out.println("Relative Cover top right X:" + temp.x + " Y:" + temp.y);
@@ -127,20 +127,20 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
     }
 
     @Override
-    public Double convertPdfToImageCoordinate(Point2D.Double src) {
+    public Point2D.Double convertPdfToImageCoordinate(Point2D.Double src) {
         double relativeX = mm2px(pt2mm(src.x), dpi);
         double relativeY = mm2px(pt2mm(pageSizeHeight - src.y), dpi);
         return new Point2D.Double(relativeX, relativeY);
     }
 
     @Override
-    public Double affineTransform(Double src, Double center, double angle) {
+    public Point2D.Double affineTransform(Point2D.Double src) {
         Point2D dst = relative.transform(src, null);
         return (Double) dst;
     }
 
     @Override
-    public Double convertPdfToImageRelativeCoordinate(Double src) {
+    public Point2D.Double convertPdfToImageRelativeCoordinate(Point2D.Double src) {
         double relativeX = convertPdfToImageCoordinate(src).x - marker[1][X];
         double relativeY = convertPdfToImageCoordinate(src).y - marker[1][Y];
         return new Point2D.Double(relativeX, relativeY);
@@ -152,7 +152,7 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
     }
 
     @Override
-    public Double getTransform() {
+    public Point2D.Double getTransform() {
         Point2D.Double transform = new Double(finderMarker.getTopLeft().getX(), finderMarker.getTopLeft().getY());
         return transform;
     }
