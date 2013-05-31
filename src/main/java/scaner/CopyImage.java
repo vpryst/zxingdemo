@@ -1,4 +1,4 @@
-package draw.rectangle;
+package scaner;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -14,10 +14,25 @@ import coordiate.tarnsform.FindMarkerAfterScanDemo;
 public class CopyImage {
     private CoordinateTransformer scan;
     
+    /**
+     * Constructor initialize variable scan
+     * @param fileName - source image
+     * @param dpi - DPI of image
+     * @param pageSizePt - page size image
+     */
     public CopyImage(String fileName, int dpi, int pageSizePt) {
         scan = new FindMarkerAfterScanDemo(fileName, dpi, pageSizePt);
     }
 
+    /**
+     * 
+     * @param img
+     * @param leftPt
+     * @param bottomPt
+     * @param rightPt
+     * @param topPt
+     * @return
+     */
     public BufferedImage getPartImage(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
 
         Point2D.Double leftBottom = new Point2D.Double(leftPt, bottomPt);

@@ -48,28 +48,23 @@ public class FinderMarkerDemo {
          */
         File file = new File(fileName);
         BinaryBitmap binaryBitmap = null;
+        FinderPatternFinder find = null;
+        FinderPatternInfo findInfo = null;
         try {
             binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
+            find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
+            findInfo = find.find(hints);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        FinderPatternFinder find = null;
-        try {
-            find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            FinderPatternInfo findInfo = find.find(hints);
-
-            setBottomLeft(findInfo.getBottomLeft());
-            setTopLeft(findInfo.getTopLeft());
-            setTopRight(findInfo.getTopRight());
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-
+        /**
+         * Set found 3 markers.
+         */
+        setBottomLeft(findInfo.getBottomLeft());
+        setTopLeft(findInfo.getTopLeft());
+        setTopRight(findInfo.getTopRight());
     }
 
     public FinderPattern getBottomLeft() {
@@ -95,15 +90,4 @@ public class FinderMarkerDemo {
     public void setTopRight(FinderPattern topRight) {
         this.topRight = topRight;
     }
-
-    public static void main(String[] args) throws IOException, NotFoundException, ChecksumException, FormatException {
-
-        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/first_page_adobe.png");
-
-        System.out.println(demo.getBottomLeft());
-        System.out.println(demo.getTopLeft());
-        System.out.println(demo.getTopRight());
-
-    }
-
 }
