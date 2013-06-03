@@ -15,8 +15,6 @@ import org.apache.pdfbox.util.ImageIOUtil;
 import com.google.zxing.qrcode.detector.FinderMarkerDemo;
 import com.lowagie.text.Image;
 
-import coordiate.tarnsform.CoordinateTransformer;
-import coordiate.tarnsform.FindMarkerAfterScanDemo;
 
 public class FinderHiderQRCode {
     private CoordinateTransformer scan;

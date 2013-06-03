@@ -1,4 +1,4 @@
-package coordiate.tarnsform;
+package scaner;
 
 /** * Utility class for unit conversions. * * @author Jeremias Maerki * @version $Id: UnitConv.java,v 1.2 2004/09/04 20:25:56 jmaerki Exp $ */
 public class UnitConv {

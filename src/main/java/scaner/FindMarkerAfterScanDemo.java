@@ -1,7 +1,7 @@
-package coordiate.tarnsform;
+package scaner;
 
-import static coordiate.tarnsform.UnitConv.mm2px;
-import static coordiate.tarnsform.UnitConv.pt2mm;
+import static scaner.UnitConv.mm2px;
+import static scaner.UnitConv.pt2mm;
 
 import java.awt.Point;
 import java.awt.geom.AffineTransform;

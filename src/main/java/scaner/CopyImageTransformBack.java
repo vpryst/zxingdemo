@@ -10,8 +10,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import coordiate.tarnsform.CoordinateTransformer;
-import coordiate.tarnsform.FindMarkerAfterScanDemo;
 
 public class CopyImageTransformBack {
     private CoordinateTransformer scan;
