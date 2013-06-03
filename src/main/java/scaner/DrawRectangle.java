@@ -27,6 +27,10 @@ public class DrawRectangle {
     public DrawRectangle(String fileName, int dpi, int pageSizePt) {
         scan = new FindMarkerAfterScanDemo(fileName, dpi, pageSizePt);
     }
+    
+    public DrawRectangle(BufferedImage img, int dpi, int pageSizePt) {
+        scan = new FindMarkerAfterScanDemo(img, dpi, pageSizePt);
+    }
 
     /**
      * Find relative coordinates on image

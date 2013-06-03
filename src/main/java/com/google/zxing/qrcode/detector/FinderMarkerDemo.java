@@ -1,5 +1,6 @@
 package com.google.zxing.qrcode.detector;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,6 +68,35 @@ public class FinderMarkerDemo {
         setTopRight(findInfo.getTopRight());
     }
 
+    public FinderMarkerDemo(BufferedImage img) {
+        /**
+         * Settings of hints not important
+         */
+        Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, Arrays.asList(BarcodeFormat.QR_CODE));
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+
+        /**
+         * Use FinderPatternFinder from QR-Code
+         */
+        BinaryBitmap binaryBitmap = null;
+        FinderPatternFinder find = null;
+        FinderPatternInfo findInfo = null;
+        try {
+            binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(img)));
+            find = new FinderPatternFinder(binaryBitmap.getBlackMatrix());
+            findInfo = find.find(hints);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        /**
+         * Set found 3 markers.
+         */
+        setBottomLeft(findInfo.getBottomLeft());
+        setTopLeft(findInfo.getTopLeft());
+        setTopRight(findInfo.getTopRight());
+    }
+
     public FinderPattern getBottomLeft() {
         return bottomLeft;
     }
@@ -89,5 +119,12 @@ public class FinderMarkerDemo {
 
     public void setTopRight(FinderPattern topRight) {
         this.topRight = topRight;
+    }
+
+    public static void main(String[] args) {
+        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/sub4.png");
+        System.out.println(demo.getBottomLeft());
+        System.out.println(demo.getTopLeft());
+        System.out.println(demo.getTopRight());
     }
 }

@@ -26,6 +26,9 @@ public class CopyImageTransformBack {
     public CopyImageTransformBack(String fileName, int dpi, int pageSizePt) {
         scan = new FindMarkerAfterScanDemo(fileName, dpi, pageSizePt);
     }
+    public CopyImageTransformBack(BufferedImage img, int dpi, int pageSizePt) {
+        scan = new FindMarkerAfterScanDemo(img, dpi, pageSizePt);
+    }
 
     /**
      * This method rotate and transform image
@@ -112,6 +115,8 @@ public class CopyImageTransformBack {
         ImageIO.write(draw.findCoordinate(img, 49.074997, 650.0, 545.925, 782.0), "png", new File("img/scaned_files/sub.png"));
         ImageIO.write(draw.findCoordinate(img, 53.074997, 679.0, 61.074997, 687.0), "png", new File("img/scaned_files/sub1.png"));
         ImageIO.write(draw.findCoordinate(img, 53.074997, 311.5, 61.074997, 319.5), "png", new File("img/scaned_files/sub2.png"));
+        ImageIO.write(draw.findCoordinate(img, 480.55, 73.69998, 532.85, 126.0), "png", new File("img/scaned_files/sub3.png"));
+        
     }
 
 }

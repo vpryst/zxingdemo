@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+import java.awt.image.BufferedImage;
 
 import com.google.zxing.qrcode.detector.FinderMarkerDemo;
 
@@ -25,10 +26,24 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
      * @param pageSizeHeightPt - Set size page in pt
      */
     public FindMarkerAfterScanDemo(String fileName, int dpiPx, int pageSizeHeightPt) {
+        finderMarker = new FinderMarkerDemo(fileName);// "img/scaned_files/first_page.png"
+        setProperty(dpiPx, pageSizeHeightPt);
+
+        relative.setToTranslation(getTransform().x, getTransform().y);
+        relative.rotate(getAngle());
+    }
+
+    public FindMarkerAfterScanDemo(BufferedImage img, int dpiPx, int pageSizeHeightPt) {
+        finderMarker = new FinderMarkerDemo(img);
+        setProperty(dpiPx, pageSizeHeightPt);
+        relative.setToTranslation(getTransform().x, getTransform().y);
+        relative.rotate(getAngle());
+    }
+
+    public void setProperty(int dpiPx, int pageSizeHeightPt) {
         this.dpi = dpiPx;
         this.pageSizeHeight = pageSizeHeightPt;
 
-        finderMarker = new FinderMarkerDemo(fileName);// "img/scaned_files/first_page.png"
         // BottomLeft
         marker[0][X] = mm2px(pt2mm(36), dpi); // 150px
         marker[0][Y] = mm2px(pt2mm(pageSizeHeight - 36), dpi); // 3354px
@@ -38,9 +53,6 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
         // TopRight
         marker[2][X] = mm2px(pt2mm(559), dpi); // 2329
         marker[2][Y] = mm2px(pt2mm(pageSizeHeight - 806), dpi); // 146px
-
-        relative.setToTranslation(getTransform().x, getTransform().y);
-        relative.rotate(getAngle());
     }
 
     // Find relative coordinate by pixel at image
@@ -156,5 +168,4 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
         Point2D.Double transform = new Double(finderMarker.getTopLeft().getX(), finderMarker.getTopLeft().getY());
         return transform;
     }
-
 }
