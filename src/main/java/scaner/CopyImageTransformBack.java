@@ -38,7 +38,7 @@ public class CopyImageTransformBack {
         BufferedImage after = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
         AffineTransform at = new AffineTransform();
         at.rotate(-scan.getAngle());
-        at.translate(-scan.getTransform().x, -scan.getTransform().y);
+        at.translate(-scan.getCornerMarkerPx().x, -scan.getCornerMarkerPx().y);
 
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         after = op.filter(img, null);

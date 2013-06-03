@@ -66,7 +66,7 @@ public class FinderHiderQRCode {
         Graphics2D aff = img.createGraphics();
         aff.setBackground(Color.BLACK);
         aff.setColor(Color.WHITE);
-        aff.translate(scan.getTransform().x, scan.getTransform().y);
+        aff.translate(scan.getCornerMarkerPx().x, scan.getCornerMarkerPx().y);
         aff.rotate(scan.getAngle());
         // System.out.println(aff.drawImage(img, 0, 0, dstW, dstH, srcLTX, srcLTY, srcRBX, srcRBY, null));
         // aff.drawRect(0, 0, 150, 150);

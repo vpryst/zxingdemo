@@ -61,7 +61,7 @@ public class DrawRectangle {
         graph.setColor(Color.RED);
         graph.setStroke(new BasicStroke(4f));
 
-        graph.translate(scan.getTransform().x, scan.getTransform().y);
+        graph.translate(scan.getCornerMarkerPx().x, scan.getCornerMarkerPx().y);
         graph.rotate(scan.getAngle());
 
         graph.drawRect((int) (XY.x), (int) (XY.y), (int) (size.x), (int) (size.y));

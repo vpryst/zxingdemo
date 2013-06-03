@@ -1,6 +1,7 @@
 package scaner;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
 public interface CoordinateTransformer {
@@ -35,6 +36,8 @@ public interface CoordinateTransformer {
     Point2D.Double affineTransform(Point2D.Double src);
 
     double getAngle();
+    
+    public Point2D.Double getCornerMarkerPx();
 
-    Point2D.Double getTransform();
+	Double transform(Double src);
 }
