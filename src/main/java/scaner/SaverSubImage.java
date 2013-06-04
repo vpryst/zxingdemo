@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 
 import com.lowagie.text.PageSize;
 
-
 public class SaverSubImage {
     private CoordinateTransformer scan;
 
@@ -24,10 +23,11 @@ public class SaverSubImage {
      * @param pageSizePt - Page size set in Pt.
      */
     public SaverSubImage(String fileName, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedObjectCoordinate(fileName, dpi, pageSizePt);
+        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt);
     }
+
     public SaverSubImage(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedObjectCoordinate(img, dpi, pageSizePt);
+        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt);
     }
 
     /**
@@ -57,7 +57,7 @@ public class SaverSubImage {
      * @param topPt - Top side position in Pt
      * @return SubImage by provided coordinate
      */
-    public BufferedImage findCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
+    public Point2D.Double[] findCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
 
         Point2D.Double leftBottom = new Point2D.Double(leftPt, bottomPt);
         Point2D.Double leftTop = new Point2D.Double(leftPt, topPt);
@@ -71,9 +71,11 @@ public class SaverSubImage {
         Point2D.Double size =
             new Point2D.Double(pointRightTop.getX() - pointLeftBottom.getX(), pointRightBottom.getY() - pointLeftTop.getY());
 
-        int w = (int) size.getX();
-        int h = (int) size.getY();
-        return getSubImage(img, 0, 0, w, h, (int) pointLeftBottom.x, (int) pointLeftTop.y, (int) pointRightTop.x, (int) pointRightBottom.y);
+        pointLeftTop = new Point2D.Double(pointLeftBottom.x, pointLeftTop.y);
+        pointRightBottom = new Point2D.Double(pointRightTop.x, pointRightBottom.y);
+
+        return new Point2D.Double[]{size, pointLeftTop, pointRightBottom};
+        // getSubImage(img, 0, 0, w, h, (int) pointLeftBottom.x, (int) pointLeftTop.y, (int) pointRightTop.x, (int) pointRightBottom.y);
     }
 
     /**
@@ -90,12 +92,13 @@ public class SaverSubImage {
      * @param srcRBY - source bottom right Y
      * @return - BufferedImage
      */
-    public BufferedImage getSubImage(BufferedImage img, int dstX, int dstY, int dstW, int dstH, int srcLTX, int srcLTY, int srcRBX,
-        int srcRBY) {
-        BufferedImage after = new BufferedImage(dstW, dstH, BufferedImage.TYPE_INT_RGB);
+    public BufferedImage getSubImage(BufferedImage img, Point2D.Double[] coordinate) {
+        BufferedImage after =
+            new BufferedImage((int) Math.round(coordinate[0].x), (int) Math.round(coordinate[0].y), BufferedImage.TYPE_INT_RGB);
         Graphics2D aff = after.createGraphics();
-        System.out.println(aff.drawImage(transformRotateImage(img), 0, 0, dstW, dstH, srcLTX, srcLTY, srcRBX, srcRBY, null));
-
+        System.out.println(aff.drawImage(transformRotateImage(img), 0, 0, (int) Math.round(coordinate[0].x),
+            (int) Math.round(coordinate[0].y), (int) Math.round(coordinate[1].x), (int) Math.round(coordinate[1].y),
+            (int) Math.round(coordinate[2].x), (int) Math.round(coordinate[2].y), null));
         aff.dispose();
         return after;
     }
@@ -113,11 +116,13 @@ public class SaverSubImage {
 
         BufferedImage img = ImageIO.read(imageFile);
 
-        ImageIO.write(draw.findCoordinate(img, 49.074997, 650.0, 545.925, 782.0), "png", new File("img/scaned_files/sub.png"));
-        ImageIO.write(draw.findCoordinate(img, 53.074997, 679.0, 61.074997, 687.0), "png", new File("img/scaned_files/sub1.png"));
-        ImageIO.write(draw.findCoordinate(img, 53.074997, 311.5, 61.074997, 319.5), "png", new File("img/scaned_files/sub2.png"));
-        ImageIO.write(draw.findCoordinate(img, 480.55, 73.69998, 532.85, 126.0), "png", new File("img/scaned_files/sub3.png"));
-        
+        ImageIO.write(draw.getSubImage(img, draw.findCoordinate(img, 49.074997, 650.0, 545.925, 782.0)), "png", new File(
+            "img/scaned_files/sub.png"));
+
+        ImageIO.write(draw.getSubImage(img, draw.findCoordinate(img, 53.074997, 679.0, 61.074997, 687.0)), "png", new File("img/scaned_files/sub1.png"));
+        ImageIO.write(draw.getSubImage(img, draw.findCoordinate(img, 53.074997, 311.5, 61.074997, 319.5)), "png", new File("img/scaned_files/sub2.png"));
+        ImageIO.write(draw.getSubImage(img, draw.findCoordinate(img, 480.55, 73.69998, 532.85, 126.0)), "png", new File("img/scaned_files/sub3.png"));
+
     }
 
 }

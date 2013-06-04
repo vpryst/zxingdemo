@@ -13,7 +13,7 @@ import com.google.zxing.qrcode.detector.FinderMarkerDemo;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 
-public class CalculaterScanedObjectCoordinate implements CoordinateTransformer {
+public class CalculaterScanedCoordinate implements CoordinateTransformer {
 	private static final int AXIS_AMOUNT = 2; // X, Y 
 	private int dpi;
     private float pageSizeHeight;
@@ -37,7 +37,7 @@ public class CalculaterScanedObjectCoordinate implements CoordinateTransformer {
      * @param dpiPx - set dpi of image
      * @param pageSizeHeightPt - Set size page in pt
      */
-    public CalculaterScanedObjectCoordinate(String fileName, int dpiPx, int pageSizeHeightPt) {
+    public CalculaterScanedCoordinate(String fileName, int dpiPx, int pageSizeHeightPt) {
     	initDefaultMarkersCoordinates();
         finderMarker = new FinderMarkerDemo(fileName);// "img/scaned_files/first_page.png"
         setDpi(dpiPx);
@@ -49,7 +49,7 @@ public class CalculaterScanedObjectCoordinate implements CoordinateTransformer {
         relative.rotate(getAngle());
     }
 
-    public CalculaterScanedObjectCoordinate(BufferedImage img, int dpiPx, int pageSizeHeightPt) {
+    public CalculaterScanedCoordinate(BufferedImage img, int dpiPx, int pageSizeHeightPt) {
 	    finderMarker = new FinderMarkerDemo(img);
 	    setDpi(dpiPx);
         setPageHeight(pageSizeHeightPt);
@@ -178,7 +178,7 @@ public class CalculaterScanedObjectCoordinate implements CoordinateTransformer {
     public static void main(String[] args) {
 
         final int pageDPI = 300;
-		CalculaterScanedObjectCoordinate demo = new CalculaterScanedObjectCoordinate("img/scaned_files/first_page_gs_ed_rt15.png", pageDPI, Math.round(PageSize.A4.getHeight()));
+		CalculaterScanedCoordinate demo = new CalculaterScanedCoordinate("img/scaned_files/first_page_gs_ed_rt15.png", pageDPI, Math.round(PageSize.A4.getHeight()));
 		
         Point2D.Double src = new Point2D.Double(101, 584);
 //        Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));

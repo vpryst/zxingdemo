@@ -20,11 +20,11 @@ public class FinderHiderQRCode {
     private CoordinateTransformer scan;
 
     public FinderHiderQRCode(String fileName, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedObjectCoordinate(fileName, dpi, pageSizePt);
+        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt);
     }
 
     public FinderHiderQRCode(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedObjectCoordinate(img, dpi, pageSizePt);
+        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt);
     }
 
     public BufferedImage findCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {

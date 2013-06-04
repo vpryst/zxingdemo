@@ -25,11 +25,11 @@ public class RectanglePainter {
      * @param pageSizePt - Page size set in Pt.
      */
     public RectanglePainter(String fileName, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedObjectCoordinate(fileName, dpi, pageSizePt);
+        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt);
     }
     
     public RectanglePainter(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedObjectCoordinate(img, dpi, pageSizePt);
+        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt);
     }
 
     /**
