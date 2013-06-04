@@ -10,8 +10,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.lowagie.text.PageSize;
 
-public class CopyImageTransformBack {
+
+public class SaverSubImage {
     private CoordinateTransformer scan;
 
     /**
@@ -21,11 +23,11 @@ public class CopyImageTransformBack {
      * @param dpi - DPI of image.
      * @param pageSizePt - Page size set in Pt.
      */
-    public CopyImageTransformBack(String fileName, int dpi, int pageSizePt) {
-        scan = new FindMarkerAfterScanDemo(fileName, dpi, pageSizePt);
+    public SaverSubImage(String fileName, int dpi, int pageSizePt) {
+        scan = new CalculaterScanedObjectCoordinate(fileName, dpi, pageSizePt);
     }
-    public CopyImageTransformBack(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new FindMarkerAfterScanDemo(img, dpi, pageSizePt);
+    public SaverSubImage(BufferedImage img, int dpi, int pageSizePt) {
+        scan = new CalculaterScanedObjectCoordinate(img, dpi, pageSizePt);
     }
 
     /**
@@ -71,7 +73,7 @@ public class CopyImageTransformBack {
 
         int w = (int) size.getX();
         int h = (int) size.getY();
-        return getPartImage(img, 0, 0, w, h, (int) pointLeftBottom.x, (int) pointLeftTop.y, (int) pointRightTop.x, (int) pointRightBottom.y);
+        return getSubImage(img, 0, 0, w, h, (int) pointLeftBottom.x, (int) pointLeftTop.y, (int) pointRightTop.x, (int) pointRightBottom.y);
     }
 
     /**
@@ -88,7 +90,7 @@ public class CopyImageTransformBack {
      * @param srcRBY - source bottom right Y
      * @return - BufferedImage
      */
-    public BufferedImage getPartImage(BufferedImage img, int dstX, int dstY, int dstW, int dstH, int srcLTX, int srcLTY, int srcRBX,
+    public BufferedImage getSubImage(BufferedImage img, int dstX, int dstY, int dstW, int dstH, int srcLTX, int srcLTY, int srcRBX,
         int srcRBY) {
         BufferedImage after = new BufferedImage(dstW, dstH, BufferedImage.TYPE_INT_RGB);
         Graphics2D aff = after.createGraphics();
@@ -103,8 +105,9 @@ public class CopyImageTransformBack {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        int pageDPI = 300;
         String fileName = "img/scaned_files/second_page_foxit_rt5.png";
-        CopyImageTransformBack draw = new CopyImageTransformBack(fileName, 300, 841);
+        SaverSubImage draw = new SaverSubImage(fileName, pageDPI, Math.round(PageSize.A4.getHeight()));
 
         File imageFile = new File(fileName);
 

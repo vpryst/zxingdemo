@@ -10,8 +10,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.lowagie.text.PageSize;
 
-public class DrawRectangle {
+
+public class RectanglePainter {
 
     private CoordinateTransformer scan;
 
@@ -22,12 +24,12 @@ public class DrawRectangle {
      * @param dpi - DPI of image.
      * @param pageSizePt - Page size set in Pt.
      */
-    public DrawRectangle(String fileName, int dpi, int pageSizePt) {
-        scan = new FindMarkerAfterScanDemo(fileName, dpi, pageSizePt);
+    public RectanglePainter(String fileName, int dpi, int pageSizePt) {
+        scan = new CalculaterScanedObjectCoordinate(fileName, dpi, pageSizePt);
     }
     
-    public DrawRectangle(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new FindMarkerAfterScanDemo(img, dpi, pageSizePt);
+    public RectanglePainter(BufferedImage img, int dpi, int pageSizePt) {
+        scan = new CalculaterScanedObjectCoordinate(img, dpi, pageSizePt);
     }
 
     /**
@@ -39,7 +41,7 @@ public class DrawRectangle {
      * @param rightPt - Right position in Pt
      * @param topPt - Top position in Pt
      */
-    public void findRectangleCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
+    public void calculateRectangleCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
         Point2D.Double topLeft = new Point2D.Double(leftPt, topPt);
         Point2D.Double bottomRight = new Point2D.Double(rightPt, bottomPt);
 
@@ -64,7 +66,7 @@ public class DrawRectangle {
         graph.translate(scan.getCornerMarkerPx().x, scan.getCornerMarkerPx().y);
         graph.rotate(scan.getAngle());
 
-        graph.drawRect((int) (XY.x), (int) (XY.y), (int) (size.x), (int) (size.y));
+        graph.drawRect((int)Math.round(XY.x),(int)Math.round(XY.y), (int)Math.round(size.x), (int)Math.round(size.y));
         graph.dispose();
     }
 
@@ -73,24 +75,25 @@ public class DrawRectangle {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        int pageDPI = 300;
         String fileName = "img/scaned_files/second_page_foxit_rt5.png";
-        DrawRectangle draw = new DrawRectangle(fileName, 300, 841);
+        RectanglePainter draw = new RectanglePainter(fileName, pageDPI, Math.round(PageSize.A4.getHeight()));
 
         File imageFile = new File(fileName);
 
         BufferedImage img = ImageIO.read(imageFile);
 
-        draw.findRectangleCoordinate(img, 49.074997, 650.0, 545.925, 782.0);
-        draw.findRectangleCoordinate(img, 53.074997, 679.0, 61.074997, 687.0);
-        draw.findRectangleCoordinate(img, 53.074997, 657.0, 61.074997, 665.0);
+        draw.calculateRectangleCoordinate(img, 49.074997, 650.0, 545.925, 782.0);
+        draw.calculateRectangleCoordinate(img, 53.074997, 679.0, 61.074997, 687.0);
+        draw.calculateRectangleCoordinate(img, 53.074997, 657.0, 61.074997, 665.0);
 
-        draw.findRectangleCoordinate(img, 49.074997, 240.0, 545.925, 632.0);
-        draw.findRectangleCoordinate(img, 53.074997, 311.5, 61.074997, 319.5);
-        draw.findRectangleCoordinate(img, 53.074997, 289.5, 61.074997, 297.5);
-        draw.findRectangleCoordinate(img, 53.074997, 267.5, 61.074997, 275.5);
-        draw.findRectangleCoordinate(img, 53.074997, 245.5, 61.074997, 253.5);
+        draw.calculateRectangleCoordinate(img, 49.074997, 240.0, 545.925, 632.0);
+        draw.calculateRectangleCoordinate(img, 53.074997, 311.5, 61.074997, 319.5);
+        draw.calculateRectangleCoordinate(img, 53.074997, 289.5, 61.074997, 297.5);
+        draw.calculateRectangleCoordinate(img, 53.074997, 267.5, 61.074997, 275.5);
+        draw.calculateRectangleCoordinate(img, 53.074997, 245.5, 61.074997, 253.5);
 
-        draw.findRectangleCoordinate(img, 480, 73, 532, 126);
+        draw.calculateRectangleCoordinate(img, 480, 73, 532, 126);
 
         ImageIO.write(img, "png", new File("img/scaned_files/template.png"));
 

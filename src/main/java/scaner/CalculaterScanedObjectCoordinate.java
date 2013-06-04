@@ -13,8 +13,7 @@ import com.google.zxing.qrcode.detector.FinderMarkerDemo;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 
-public class FindMarkerAfterScanDemo implements CoordinateTransformer {
-    private static final int _300 = 300;
+public class CalculaterScanedObjectCoordinate implements CoordinateTransformer {
 	private static final int AXIS_AMOUNT = 2; // X, Y 
 	private int dpi;
     private float pageSizeHeight;
@@ -38,35 +37,41 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
      * @param dpiPx - set dpi of image
      * @param pageSizeHeightPt - Set size page in pt
      */
-    public FindMarkerAfterScanDemo(String fileName, int dpiPx, int pageSizeHeightPt) {
+    public CalculaterScanedObjectCoordinate(String fileName, int dpiPx, int pageSizeHeightPt) {
     	initDefaultMarkersCoordinates();
         finderMarker = new FinderMarkerDemo(fileName);// "img/scaned_files/first_page.png"
         setDpi(dpiPx);
         setPageHeight(pageSizeHeightPt);
         
-        
         calculateMarkerPositionPt2Px();
         
-
         relative.setToTranslation(getCornerMarkerPx().x, getCornerMarkerPx().y);
         relative.rotate(getAngle());
     }
 
-    public FindMarkerAfterScanDemo(BufferedImage img, int dpiPx, int pageSizeHeightPt) {
+    public CalculaterScanedObjectCoordinate(BufferedImage img, int dpiPx, int pageSizeHeightPt) {
 	    finderMarker = new FinderMarkerDemo(img);
 	    setDpi(dpiPx);
         setPageHeight(pageSizeHeightPt);
         
 	    calculateMarkerPositionPt2Px();
+	    
 	    relative.setToTranslation(getCornerMarkerPx().x, getCornerMarkerPx().y);
 	    relative.rotate(getAngle());
 	}
 
+    /**
+     * Size insert in Pt
+     * @param f
+     */
 	public void setPageHeight(float f) {
     	this.pageSizeHeight = f;
 		 
 	}
-
+	/**
+	 * Insert in Px
+	 * @param dpiPx
+	 */
 	public void setDpi(int dpiPx) {
 		this.dpi = dpiPx;
 		
@@ -98,10 +103,10 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
      * @param etalonYPx
      * @return
      */
-    public Point2D.Double findRelativePx(int etalonXPx, int etalonYPx) {
+    public Point2D.Double calculateRelativeCoordinateMarkerObjectPx(int etalonXPx, int etalonYPx) {
         double relativeX = etalonXPx - marker[1][X];
         double relativeY = etalonYPx - marker[1][Y];
-        Point2D transformCoordinate = returnPoint(relativeX, relativeY);
+        Point2D transformCoordinate = transformedCoordinatePoint(relativeX, relativeY);
         return (Double) transformCoordinate;
     }
 
@@ -111,10 +116,10 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
       * @param etalonYPt
       * @return
       */
-    public Point2D.Double findRelativePt(int etalonXPt, int etalonYPt) {
+    public Point2D.Double calculateRelativeCoordinateMarkerObjectPt(int etalonXPt, int etalonYPt) {
         double relativeX = mm2px(pt2mm(etalonXPt), dpi) - marker[1][X];
         double relativeY = mm2px(pt2mm(pageSizeHeight - etalonYPt), dpi) - marker[1][Y];
-        Point2D transformCoordinate = returnPoint(relativeX, relativeY);
+        Point2D transformCoordinate = transformedCoordinatePoint(relativeX, relativeY);
         return (Double) transformCoordinate;
     }
 
@@ -155,14 +160,13 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
         return angle;
     }
 
-    // find angle use marker
-    public double findMarkerAngle() {
-        Point p1 = new Point((int) (finderMarker.getBottomLeft().getX()), (int) (finderMarker.getBottomLeft().getY()));
-        Point p2 = new Point((int) (finderMarker.getTopLeft().getX()), (int) (finderMarker.getTopLeft().getY()));
-        return calcRotationAngleInDegrees(p1, p2) * Math.PI / 180;
-    }
-
-    public Point2D.Double returnPoint(double pX, double pY) {
+    /**
+     * Transform input coordinate relative AffineTransform
+     * @param pX - Etalone coordinate
+     * @param pY - Etalone coordinate
+     * @return - Transformed coordinate
+     */
+    public Point2D.Double transformedCoordinatePoint(double pX, double pY) {
         Point2D.Double pointBefore = new Point2D.Double(pX, pY);
         Point2D.Double pointAfter = (Double) relative.transform(pointBefore, null);
         return pointAfter;
@@ -174,7 +178,7 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
     public static void main(String[] args) {
 
         final int pageDPI = 300;
-		FindMarkerAfterScanDemo demo = new FindMarkerAfterScanDemo("img/scaned_files/first_page_gs_ed_rt15.png", pageDPI, (int) PageSize.A4.getHeight());
+		CalculaterScanedObjectCoordinate demo = new CalculaterScanedObjectCoordinate("img/scaned_files/first_page_gs_ed_rt15.png", pageDPI, Math.round(PageSize.A4.getHeight()));
 		
         Point2D.Double src = new Point2D.Double(101, 584);
 //        Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
@@ -190,12 +194,16 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
 //        temp = demo.findRelativePt(532, 126);
 //        System.out.println("Relative footer top right X:" + temp.x + " Y:" + temp.y);
     }
-
+    /**
+     * Return calculated object relative marker coordinate on image.
+     */
     @Override
     public Double transform(Double src) {
 		return affineTransform(convertPdfToImageRelativeCoordinate(src));
 	}
-
+    /**
+     * Return calculated object coordinate on image.
+     */
 	@Override
     public Point2D.Double convertPdfToImageCoordinate(Point2D.Double src) {
         double relativeX = mm2px(pt2mm(src.x), dpi);
@@ -208,7 +216,10 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
         Point2D dst = relative.transform(src, null);
         return (Double) dst;
     }
-
+    
+    /**
+     * convert Object coordinate in Pt to relative marker coordinate in Px  
+     */
     @Override
     public Point2D.Double convertPdfToImageRelativeCoordinate(Point2D.Double src) {
         double relativeX = convertPdfToImageCoordinate(src).x - marker[1][X];
@@ -216,9 +227,14 @@ public class FindMarkerAfterScanDemo implements CoordinateTransformer {
         return new Point2D.Double(relativeX, relativeY);
     }
 
+    /**
+     * find angle use BottomLeft and TopLeft markers
+     */
     @Override
     public double getAngle() {
-        return findMarkerAngle();
+        Point p1 = new Point(Math.round(finderMarker.getBottomLeft().getX()), Math.round(finderMarker.getBottomLeft().getY()));
+        Point p2 = new Point(Math.round(finderMarker.getTopLeft().getX()), Math.round(finderMarker.getTopLeft().getY()));
+        return calcRotationAngleInDegrees(p1, p2) * Math.PI / 180;
     }
 
     @Override

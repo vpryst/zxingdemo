@@ -20,11 +20,11 @@ public class FinderHiderQRCode {
     private CoordinateTransformer scan;
 
     public FinderHiderQRCode(String fileName, int dpi, int pageSizePt) {
-        scan = new FindMarkerAfterScanDemo(fileName, dpi, pageSizePt);
+        scan = new CalculaterScanedObjectCoordinate(fileName, dpi, pageSizePt);
     }
 
     public FinderHiderQRCode(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new FindMarkerAfterScanDemo(img, dpi, pageSizePt);
+        scan = new CalculaterScanedObjectCoordinate(img, dpi, pageSizePt);
     }
 
     public BufferedImage findCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
@@ -43,7 +43,7 @@ public class FinderHiderQRCode {
 
         int w = (int) size.getX();
         int h = (int) size.getY();
-        return getPartImage(img, 0, 0, w, h, (int) pointLeftBottom.x, (int) pointLeftTop.y, (int) pointRightTop.x, (int) pointRightBottom.y);
+        return getPartImage(img, 0, 0, w, h, (int)Math.round(pointLeftBottom.x), (int)Math.round(pointLeftTop.y), (int)Math.round(pointRightTop.x), (int)Math.round(pointRightBottom.y));
     }
 
     /**
@@ -104,19 +104,19 @@ public class FinderHiderQRCode {
         demo = new FinderHiderQRCode(imgChenged, 300, 841);
         // CopyImageTransformBack getImage = new CopyImageTransformBack(imgChenged, 300, 841);
 
-        DrawRectangle draw = new DrawRectangle(imgChenged, 300, 841);
+        RectanglePainter draw = new RectanglePainter(imgChenged, 300, 841);
 
-        draw.findRectangleCoordinate(imgChenged, 49.074997, 650.0, 545.925, 782.0);
-        draw.findRectangleCoordinate(imgChenged, 53.074997, 679.0, 61.074997, 687.0);
-        draw.findRectangleCoordinate(imgChenged, 53.074997, 657.0, 61.074997, 665.0);
+        draw.calculateRectangleCoordinate(imgChenged, 49.074997, 650.0, 545.925, 782.0);
+        draw.calculateRectangleCoordinate(imgChenged, 53.074997, 679.0, 61.074997, 687.0);
+        draw.calculateRectangleCoordinate(imgChenged, 53.074997, 657.0, 61.074997, 665.0);
 
-        draw.findRectangleCoordinate(imgChenged, 49.074997, 240.0, 545.925, 632.0);
-        draw.findRectangleCoordinate(imgChenged, 53.074997, 311.5, 61.074997, 319.5);
-        draw.findRectangleCoordinate(imgChenged, 53.074997, 289.5, 61.074997, 297.5);
-        draw.findRectangleCoordinate(imgChenged, 53.074997, 267.5, 61.074997, 275.5);
-        draw.findRectangleCoordinate(imgChenged, 53.074997, 245.5, 61.074997, 253.5);
+        draw.calculateRectangleCoordinate(imgChenged, 49.074997, 240.0, 545.925, 632.0);
+        draw.calculateRectangleCoordinate(imgChenged, 53.074997, 311.5, 61.074997, 319.5);
+        draw.calculateRectangleCoordinate(imgChenged, 53.074997, 289.5, 61.074997, 297.5);
+        draw.calculateRectangleCoordinate(imgChenged, 53.074997, 267.5, 61.074997, 275.5);
+        draw.calculateRectangleCoordinate(imgChenged, 53.074997, 245.5, 61.074997, 253.5);
 
-        draw.findRectangleCoordinate(imgChenged, 480, 73, 532, 126);
+        draw.calculateRectangleCoordinate(imgChenged, 480, 73, 532, 126);
 
         ImageIO.write(imgChenged, "png", new File("img/scaned_files/template.png"));
 
