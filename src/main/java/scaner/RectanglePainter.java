@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 
 import com.lowagie.text.PageSize;
 
-
 public class RectanglePainter {
 
     private CoordinateTransformer scan;
@@ -24,12 +23,12 @@ public class RectanglePainter {
      * @param dpi - DPI of image.
      * @param pageSizePt - Page size set in Pt.
      */
-    public RectanglePainter(String fileName, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt);
+    public RectanglePainter(String fileName, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
+        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
     }
-    
-    public RectanglePainter(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt);
+
+    public RectanglePainter(BufferedImage img, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
+        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt, left, bottom, top, right);
     }
 
     /**
@@ -66,7 +65,7 @@ public class RectanglePainter {
         graph.translate(scan.getCornerMarkerPx().x, scan.getCornerMarkerPx().y);
         graph.rotate(scan.getAngle());
 
-        graph.drawRect((int)Math.round(XY.x),(int)Math.round(XY.y), (int)Math.round(size.x), (int)Math.round(size.y));
+        graph.drawRect((int) Math.round(XY.x), (int) Math.round(XY.y), (int) Math.round(size.x), (int) Math.round(size.y));
         graph.dispose();
     }
 
@@ -77,7 +76,7 @@ public class RectanglePainter {
     public static void main(String[] args) throws IOException {
         int pageDPI = 300;
         String fileName = "img/scaned_files/second_page_foxit_rt5.png";
-        RectanglePainter draw = new RectanglePainter(fileName, pageDPI, Math.round(PageSize.A4.getHeight()));
+        RectanglePainter draw = new RectanglePainter(fileName, pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36, 559, 806);
 
         File imageFile = new File(fileName);
 

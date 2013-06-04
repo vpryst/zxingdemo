@@ -8,23 +8,20 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
 
 import org.apache.pdfbox.util.ImageIOUtil;
 
 import com.google.zxing.qrcode.detector.FinderMarkerDemo;
-import com.lowagie.text.Image;
-
 
 public class FinderHiderQRCode {
     private CoordinateTransformer scan;
 
-    public FinderHiderQRCode(String fileName, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt);
+    public FinderHiderQRCode(String fileName, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
+        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
     }
 
-    public FinderHiderQRCode(BufferedImage img, int dpi, int pageSizePt) {
-        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt);
+    public FinderHiderQRCode(BufferedImage img, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
+        scan = new CalculaterScanedCoordinate(img, dpi, pageSizePt, left, bottom, top, right);
     }
 
     public BufferedImage findCoordinate(BufferedImage img, double leftPt, double bottomPt, double rightPt, double topPt) {
@@ -43,7 +40,8 @@ public class FinderHiderQRCode {
 
         int w = (int) size.getX();
         int h = (int) size.getY();
-        return getPartImage(img, 0, 0, w, h, (int)Math.round(pointLeftBottom.x), (int)Math.round(pointLeftTop.y), (int)Math.round(pointRightTop.x), (int)Math.round(pointRightBottom.y));
+        return getPartImage(img, 0, 0, w, h, (int) Math.round(pointLeftBottom.x), (int) Math.round(pointLeftTop.y),
+            (int) Math.round(pointRightTop.x), (int) Math.round(pointRightBottom.y));
     }
 
     /**
@@ -81,7 +79,7 @@ public class FinderHiderQRCode {
      */
     public static void main(String[] args) throws IOException {
         String fileName = "img/scaned_files/second_page_foxit.png";
-        FinderHiderQRCode demo = new FinderHiderQRCode(fileName, 300, 841);
+        FinderHiderQRCode demo = new FinderHiderQRCode(fileName, 300, 841, 36, 36, 559, 806);
 
         File imageFile = new File(fileName);
 
@@ -89,22 +87,22 @@ public class FinderHiderQRCode {
 
         // ImageIO.write(demo.findCoordinate(img, 480.55, 73.69998, 532.85, 126.0), "png", new File("img/scaned_files/sub3.png"));
         BufferedImage imgChenged = demo.findCoordinate(img, 0, 0, 100, 100);
-        //ImageIO.write(imgChenged, "png", new File("img/scaned_files/sub4.png"));
-        
+        // ImageIO.write(imgChenged, "png", new File("img/scaned_files/sub4.png"));
+
         ImageIOUtil.writeImage(imgChenged, "png", "img/scaned_files/sub4", BufferedImage.TYPE_BYTE_GRAY, 300);
-        
+
         System.out.println(imgChenged.getHeight());
         System.out.println(imgChenged.getWidth());
-        
+
         FinderMarkerDemo dd = new FinderMarkerDemo(imgChenged);
         System.out.println(dd.getBottomLeft());
         System.out.println(dd.getTopLeft());
         System.out.println(dd.getTopRight());
 
-        demo = new FinderHiderQRCode(imgChenged, 300, 841);
+        demo = new FinderHiderQRCode(imgChenged, 300, 841, 36, 36, 559, 806);
         // CopyImageTransformBack getImage = new CopyImageTransformBack(imgChenged, 300, 841);
 
-        RectanglePainter draw = new RectanglePainter(imgChenged, 300, 841);
+        RectanglePainter draw = new RectanglePainter(imgChenged, 300, 841, 36, 36, 559, 806);
 
         draw.calculateRectangleCoordinate(imgChenged, 49.074997, 650.0, 545.925, 782.0);
         draw.calculateRectangleCoordinate(imgChenged, 53.074997, 679.0, 61.074997, 687.0);
