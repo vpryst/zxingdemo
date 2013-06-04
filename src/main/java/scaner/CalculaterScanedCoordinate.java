@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
-import com.google.zxing.qrcode.detector.FinderMarkerDemo;
+import com.google.zxing.qrcode.detector.MarkerFinder;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 
@@ -23,7 +23,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
      */
     private double[][] marker = new double[3][AXIS_AMOUNT];
 
-    private FinderMarkerDemo finderMarker;
+    private MarkerFinder finderMarker;
 
     private AffineTransform relative = new AffineTransform();
 
@@ -39,7 +39,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
      */
     public CalculaterScanedCoordinate(String fileName, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right) {
         initDefaultMarkersCoordinates(left, bottom, top, right);
-        finderMarker = new FinderMarkerDemo(fileName);// "img/scaned_files/first_page.png"
+        finderMarker = new MarkerFinder(fileName);// "img/scaned_files/first_page.png"
         setDpi(dpiPx);
         setPageHeight(pageSizeHeightPt);
 
@@ -51,7 +51,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
 
     public CalculaterScanedCoordinate(BufferedImage img, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right) {
         initDefaultMarkersCoordinates(left, bottom, top, right);
-        finderMarker = new FinderMarkerDemo(img);
+        finderMarker = new MarkerFinder(img);
         setDpi(dpiPx);
         setPageHeight(pageSizeHeightPt);
 
@@ -186,7 +186,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
 
         final int pageDPI = 300;
         CalculaterScanedCoordinate demo =
-            new CalculaterScanedCoordinate("img/scaned_files/first_page_gs_ed_rt15.png", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
+            new CalculaterScanedCoordinate("img/scaned_files/second_page_foxit_rt10_gray.png", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
                 36, 559, 806);
 
         Point2D.Double src = new Point2D.Double(101, 584);

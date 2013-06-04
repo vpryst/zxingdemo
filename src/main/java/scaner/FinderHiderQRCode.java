@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.util.ImageIOUtil;
 
-import com.google.zxing.qrcode.detector.FinderMarkerDemo;
+import com.google.zxing.qrcode.detector.MarkerFinder;
 
 public class FinderHiderQRCode {
     private CoordinateTransformer scan;
@@ -94,7 +94,7 @@ public class FinderHiderQRCode {
         System.out.println(imgChenged.getHeight());
         System.out.println(imgChenged.getWidth());
 
-        FinderMarkerDemo dd = new FinderMarkerDemo(imgChenged);
+        MarkerFinder dd = new MarkerFinder(imgChenged);
         System.out.println(dd.getBottomLeft());
         System.out.println(dd.getTopLeft());
         System.out.println(dd.getTopRight());

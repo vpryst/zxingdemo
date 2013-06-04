@@ -24,7 +24,7 @@ import com.google.zxing.common.HybridBinarizer;
  * @author vpryst
  */
 
-public class FinderMarkerDemo {
+public class MarkerFinder {
     /**
      * @param args
      * @throws IOException
@@ -36,7 +36,7 @@ public class FinderMarkerDemo {
     private FinderPattern topLeft;
     private FinderPattern topRight;
 
-    public FinderMarkerDemo(String fileName) {
+    public MarkerFinder(String fileName) {
         /**
          * Settings of hints not important
          */
@@ -68,7 +68,7 @@ public class FinderMarkerDemo {
         setTopRight(findInfo.getTopRight());
     }
 
-    public FinderMarkerDemo(BufferedImage img) {
+    public MarkerFinder(BufferedImage img) {
         /**
          * Settings of hints not important
          */
@@ -122,7 +122,7 @@ public class FinderMarkerDemo {
     }
 
     public static void main(String[] args) {
-        FinderMarkerDemo demo = new FinderMarkerDemo("img/scaned_files/sub4.png");
+        MarkerFinder demo = new MarkerFinder("img/scaned_files/second_page_foxit_ed.png");
         System.out.println(demo.getBottomLeft());
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
