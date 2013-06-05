@@ -92,10 +92,10 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
         marker[0][Y] = mm2px(pt2mm(pageSizeHeight - bottom), dpi);
         // TopLeft
         marker[1][X] = mm2px(pt2mm(left), dpi);
-        marker[1][Y] = mm2px(pt2mm(pageSizeHeight - top), dpi);
+        marker[1][Y] = mm2px(pt2mm(pageSizeHeight - right), dpi);
         // TopRight
-        marker[2][X] = mm2px(pt2mm(right), dpi);
-        marker[2][Y] = mm2px(pt2mm(pageSizeHeight - top), dpi);
+        marker[2][X] = mm2px(pt2mm(top), dpi);
+        marker[2][Y] = mm2px(pt2mm(pageSizeHeight - right), dpi);
     }
 
     /**
@@ -184,10 +184,10 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
 
         final int pageDPI = 300;
         CalculaterScanedCoordinate demo =
-            new CalculaterScanedCoordinate("img/scaned_files/sc/third_page1.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
+            new CalculaterScanedCoordinate("img/scaned_files/sc/second_page9.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
                 36, 559, 806);
 
-        Point2D.Double src = new Point2D.Double(101, 584);
+        Point2D.Double src = new Point2D.Double(49.074997, 650.0);
         // Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
         Point2D.Double result = demo.transform(src);
 

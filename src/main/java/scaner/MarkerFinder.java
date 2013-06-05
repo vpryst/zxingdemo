@@ -1,6 +1,8 @@
 package scaner;
 
 import static com.google.zxing.qrcode.detector.FinderPatternFinderEx.find;
+import static scaner.UnitConv.mm2px;
+import static scaner.UnitConv.pt2mm;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -57,7 +59,7 @@ public class MarkerFinder {
 
         findMarker = find(0, 0, width, height, image);
         if (findMarker.size() == 1) {
-            setBottomLeft(findMarker.get(0));
+            setTopLeft(findMarker.get(0));
         }
 
         findMarker.clear();
@@ -69,7 +71,7 @@ public class MarkerFinder {
         findMarker.clear();
         findMarker = find(0, height, width, image.getHeight(), image);
         if (findMarker.size() == 1) {
-            setTopLeft(findMarker.get(0));
+            setBottomLeft(findMarker.get(0));
         }
     }
 
@@ -102,7 +104,7 @@ public class MarkerFinder {
         MarkerFinder demo = null;
         
         try {
-            demo = new MarkerFinder("img/scaned_files/sc/third_page1.jpg");
+            demo = new MarkerFinder("img/scaned_files/sc/second_page9.jpg");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -110,6 +112,12 @@ public class MarkerFinder {
         System.out.println(demo.getBottomLeft());
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
+        
+        System.out.println(mm2px(pt2mm(36), 300));
+        System.out.println(mm2px(pt2mm(36), 300));
+        System.out.println(mm2px(pt2mm(559), 300));
+        System.out.println(mm2px(pt2mm(806), 300));
+
     }
 
 }

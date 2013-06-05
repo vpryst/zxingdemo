@@ -17,7 +17,12 @@ public class FinderHiderQRCode {
     private CoordinateTransformer scan;
 
     public FinderHiderQRCode(String fileName, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
-        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
+        try {
+            scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public FinderHiderQRCode(BufferedImage img, int dpi, int pageSizePt, int left, int bottom, int top, int right) {

@@ -23,7 +23,12 @@ public class SaverSubImage {
      * @param pageSizePt - Page size set in Pt.
      */
     public SaverSubImage(String fileName, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
-        scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
+        try {
+            scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public SaverSubImage(BufferedImage img, int dpi, int pageSizePt, int left, int bottom, int top, int right) {
@@ -109,7 +114,7 @@ public class SaverSubImage {
      */
     public static void main(String[] args) throws IOException {
         int pageDPI = 300;
-        String fileName = "img/scaned_files/second_page_foxit_rt5.png";
+        String fileName = "img/scaned_files/sc/second_page9.jpg";
         SaverSubImage draw = new SaverSubImage(fileName, pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36, 559, 806);
 
         File imageFile = new File(fileName);
