@@ -122,7 +122,7 @@ public class MarkerFinder {
     }
 
     public static void main(String[] args) {
-        MarkerFinder demo = new MarkerFinder("img/scaned_files/second_page_foxit_ed.png");
+        MarkerFinder demo = new MarkerFinder("img/scaned_files/sc/QR1.png");
         System.out.println(demo.getBottomLeft());
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
