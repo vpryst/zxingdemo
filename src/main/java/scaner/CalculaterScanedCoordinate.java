@@ -8,8 +8,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import com.google.zxing.qrcode.detector.MarkerFinder;
+import javax.imageio.ImageIO;
+
+import scaner.MarkerFinder;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 
@@ -36,17 +40,10 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
      * @param fileName - source file to take markers
      * @param dpiPx - set dpi of image
      * @param pageSizeHeightPt - Set size page in pt
+     * @throws IOException 
      */
-    public CalculaterScanedCoordinate(String fileName, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right) {
-        initDefaultMarkersCoordinates(left, bottom, top, right);
-        finderMarker = new MarkerFinder(fileName);// "img/scaned_files/first_page.png"
-        setDpi(dpiPx);
-        setPageHeight(pageSizeHeightPt);
-
-        calculateMarkerPositionPt2Px();
-
-        relative.setToTranslation(getCornerMarkerPx().x, getCornerMarkerPx().y);
-        relative.rotate(getAngle());
+    public CalculaterScanedCoordinate(String fileName, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right) throws IOException {
+        this(ImageIO.read(new File(fileName)), dpiPx, pageSizeHeightPt, left, bottom, top, right);
     }
 
     public CalculaterScanedCoordinate(BufferedImage img, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right) {
@@ -181,19 +178,20 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
 
     /**
      * @param args
+     * @throws IOException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         final int pageDPI = 300;
         CalculaterScanedCoordinate demo =
-            new CalculaterScanedCoordinate("img/scaned_files/second_page_foxit_rt10_gray.png", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
+            new CalculaterScanedCoordinate("img/scaned_files/sc/third_page1.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
                 36, 559, 806);
 
         Point2D.Double src = new Point2D.Double(101, 584);
         // Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
         Point2D.Double result = demo.transform(src);
 
-        // System.out.println("Relative Cover bottom left X:" + temp.x + " Y:" + temp.y);
+        System.out.println("Relative Cover bottom left X:" + result.x + " Y:" + result.y);
         // temp = demo.findRelativePx(2054, 696);
         // System.out.println("Relative Cover top right X:" + temp.x + " Y:" + temp.y);
         // temp = demo.findRelativePt(480, 73);

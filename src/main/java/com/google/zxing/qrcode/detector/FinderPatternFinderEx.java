@@ -37,19 +37,24 @@ public class FinderPatternFinderEx {
     private static int[] crossCheckStateCount = new int[5];
     private static ResultPointCallback resultPointCallback;
 
-    static List<FinderPattern> find(BufferedImage img) throws NotFoundException {
+    public static List<FinderPattern> find(int x, int y, int w, int h, BufferedImage img) {
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(img)));
-        image = binaryBitmap.getBlackMatrix();
-        int maxI = image.getHeight();
-        int maxJ = image.getWidth();
+        try {
+            image = binaryBitmap.getBlackMatrix();
+        } catch (NotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        int maxI = h;// image.getHeight();
+        int maxJ = w;// image.getWidth();
         // We are looking for black/white/black/white/black modules in
         // 1:1:3:1:1 ratio; this tracks the number of such modules seen so far
-        
-        int iSkip =  MIN_SKIP;
-        
+
+        int iSkip = MIN_SKIP;
+
         boolean done = false;
         int[] stateCount = new int[5];
-        for (int i = iSkip - 1; i < maxI && !done; i += iSkip) {
+        for (int i = y + iSkip - 1; i < maxI && !done; i += iSkip) {
             // Get a row of black/white values
             stateCount[0] = 0;
             stateCount[1] = 0;
@@ -57,7 +62,7 @@ public class FinderPatternFinderEx {
             stateCount[3] = 0;
             stateCount[4] = 0;
             int currentState = 0;
-            for (int j = 0; j < maxJ; j++) {
+            for (int j = x; j < maxJ; j++) {
                 if (image.get(j, i)) {
                     // Black pixel
                     if ((currentState & 1) == 1) { // Counting white pixels
@@ -432,9 +437,10 @@ public class FinderPatternFinderEx {
     public static void main(String[] args) throws IOException, NotFoundException {
         File file = new File("img/scaned_files/Temp/img_01.jpg");
         BufferedImage img = ImageIO.read(file);
-        //BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(img.getSubimage(0, 0, 2420, 2200))));
-        //FinderPatternFinderEx demo = new FinderPatternFinderEx(binaryBitmap.getBlackMatrix());
-        
-        System.out.println(find(img.getSubimage(0, 0, 2420, 2200)).size());
+        // BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(img.getSubimage(0, 0, 2420,
+        // 2200))));
+        // FinderPatternFinderEx demo = new FinderPatternFinderEx(binaryBitmap.getBlackMatrix());
+
+        System.out.println(find(0, 0, 2480, 360, img).toString());
     }
 }
