@@ -80,7 +80,7 @@ public class RectanglePainter {
      */
     public static void main(String[] args) throws IOException {
         int pageDPI = 300;
-        String fileName = "img/scaned_files/sc/second_page9.jpg";
+        String fileName = "img/scaned_files/sub4.png";
         RectanglePainter draw = new RectanglePainter(fileName, pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36, 559, 806);
 
         File imageFile = new File(fileName);
@@ -99,7 +99,7 @@ public class RectanglePainter {
 
         draw.calculateRectangleCoordinate(img, 480, 73, 532, 126);
 
-        ImageIO.write(img, "png", new File("img/scaned_files/template.png"));
+        ImageIO.write(img, "png", new File("img/scaned_files/template2.png"));
 
         System.out.println("Finish");
     }

@@ -1,4 +1,4 @@
-package scaner;
+package scaner.zxing;
 /*
  * Copyright 2007 ZXing authors
  *

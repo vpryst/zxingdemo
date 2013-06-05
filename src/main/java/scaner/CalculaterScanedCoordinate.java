@@ -14,6 +14,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import scaner.MarkerFinder;
+import scaner.zxing.FinderPatternEx;
+
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 

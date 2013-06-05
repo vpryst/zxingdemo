@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
+import scaner.zxing.FinderPatternEx;
+
 public interface CoordinateTransformer {
 
     int X = 0;

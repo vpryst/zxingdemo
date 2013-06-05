@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package scaner;
+package scaner.zxing;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,7 +29,8 @@ import com.google.zxing.ResultPointCallback;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
-import scaner.FinderPatternEx;
+
+import scaner.zxing.FinderPatternEx;
 
 /**
  * <p>

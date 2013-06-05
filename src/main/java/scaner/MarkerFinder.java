@@ -1,8 +1,8 @@
 package scaner;
 
-import static scaner.FinderPatternFinderEx.find;
 import static scaner.UnitConv.mm2px;
 import static scaner.UnitConv.pt2mm;
+import static scaner.zxing.FinderPatternFinderEx.find;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+
+import scaner.zxing.FinderPatternEx;
 
 import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
@@ -47,9 +49,9 @@ public class MarkerFinder {
         List<FinderPatternEx> findMarker;
 
         findMarker = find(0, 0, width, height, image);
-        if (findMarker.size() == 1) {
+        //if (findMarker.size() == 1) {
             setTopLeft(findMarker.get(0));
-        }
+        //}
 
         findMarker.clear();
         findMarker = find(width, 0, image.getWidth(), height, image);
@@ -99,7 +101,7 @@ public class MarkerFinder {
         MarkerFinder demo = null;
         
         try {
-            demo = new MarkerFinder("img/scaned_files/sc/second_page9.jpg");
+            demo = new MarkerFinder("img/scaned_files/sc/second_page3.png");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -108,10 +110,7 @@ public class MarkerFinder {
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
         
-        System.out.println(mm2px(pt2mm(36), 300));
-        System.out.println(mm2px(pt2mm(36), 300));
-        System.out.println(mm2px(pt2mm(559), 300));
-        System.out.println(mm2px(pt2mm(806), 300));
+        
 
     }
 

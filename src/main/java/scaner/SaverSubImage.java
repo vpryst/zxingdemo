@@ -26,7 +26,6 @@ public class SaverSubImage {
         try {
             scan = new CalculaterScanedCoordinate(fileName, dpi, pageSizePt, left, bottom, top, right);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
