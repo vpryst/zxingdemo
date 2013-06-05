@@ -29,7 +29,7 @@ import com.google.zxing.ResultPointCallback;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
-import scaner.FinderPattern;
+import scaner.FinderPatternEx;
 
 /**
  * <p>
@@ -48,12 +48,12 @@ public class FinderPatternFinderEx {
     private static final int INTEGER_MATH_SHIFT = 8;
 
     private static BitMatrix image;
-    private static List<FinderPattern> possibleCenters = new ArrayList<FinderPattern>();
+    private static List<FinderPatternEx> possibleCenters = new ArrayList<FinderPatternEx>();
     private static boolean hasSkipped;
     private static int[] crossCheckStateCount = new int[5];
     private static ResultPointCallback resultPointCallback;
 
-    public static List<FinderPattern> find(int x, int y, int w, int h, BufferedImage img) {
+    public static List<FinderPatternEx> find(int x, int y, int w, int h, BufferedImage img) {
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(img)));
         try {
             image = binaryBitmap.getBlackMatrix();
@@ -371,7 +371,7 @@ public class FinderPatternFinderEx {
                 float estimatedModuleSize = (float) stateCountTotal / 7.0f;
                 boolean found = false;
                 for (int index = 0; index < possibleCenters.size(); index++) {
-                    FinderPattern center = possibleCenters.get(index);
+                    FinderPatternEx center = possibleCenters.get(index);
                     // Look for about the same center and module size:
                     if (center.aboutEquals(estimatedModuleSize, centerI, centerJ)) {
                         possibleCenters.set(index, center.combineEstimate(centerI, centerJ, estimatedModuleSize));
@@ -380,7 +380,7 @@ public class FinderPatternFinderEx {
                     }
                 }
                 if (!found) {
-                    FinderPattern point = new FinderPattern(centerJ, centerI, estimatedModuleSize);
+                    FinderPatternEx point = new FinderPatternEx(centerJ, centerI, estimatedModuleSize);
                     possibleCenters.add(point);
                     if (resultPointCallback != null) {
                         resultPointCallback.foundPossibleResultPoint(point);
@@ -401,8 +401,8 @@ public class FinderPatternFinderEx {
         if (max <= 1) {
             return 0;
         }
-        FinderPattern firstConfirmedCenter = null;
-        for (FinderPattern center : possibleCenters) {
+        FinderPatternEx firstConfirmedCenter = null;
+        for (FinderPatternEx center : possibleCenters) {
             if (center.getCount() >= CENTER_QUORUM) {
                 if (firstConfirmedCenter == null) {
                     firstConfirmedCenter = center;
@@ -429,7 +429,7 @@ public class FinderPatternFinderEx {
         int confirmedCount = 0;
         float totalModuleSize = 0.0f;
         int max = possibleCenters.size();
-        for (FinderPattern pattern : possibleCenters) {
+        for (FinderPatternEx pattern : possibleCenters) {
             if (pattern.getCount() >= CENTER_QUORUM) {
                 confirmedCount++;
                 totalModuleSize += pattern.getEstimatedModuleSize();
@@ -444,7 +444,7 @@ public class FinderPatternFinderEx {
         // 5% of the total module size estimates, it's too much.
         float average = totalModuleSize / (float) max;
         float totalDeviation = 0.0f;
-        for (FinderPattern pattern : possibleCenters) {
+        for (FinderPatternEx pattern : possibleCenters) {
             totalDeviation += Math.abs(pattern.getEstimatedModuleSize() - average);
         }
         return totalDeviation <= 0.05f * totalModuleSize;

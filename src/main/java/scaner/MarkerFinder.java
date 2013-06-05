@@ -1,6 +1,6 @@
 package scaner;
 
-import static com.google.zxing.qrcode.detector.FinderPatternFinderEx.find;
+import static scaner.FinderPatternFinderEx.find;
 import static scaner.UnitConv.mm2px;
 import static scaner.UnitConv.pt2mm;
 
@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
-import com.google.zxing.qrcode.detector.FinderPattern;
 
 public class MarkerFinder {
     /**
@@ -24,9 +23,9 @@ public class MarkerFinder {
      * @throws ChecksumException
      * @throws NotFoundException
      */
-    private FinderPattern bottomLeft;
-    private FinderPattern topLeft;
-    private FinderPattern topRight;
+    private FinderPatternEx bottomLeft;
+    private FinderPatternEx topLeft;
+    private FinderPatternEx topRight;
 
     private BufferedImage image;
     int width;
@@ -38,24 +37,14 @@ public class MarkerFinder {
 
     public MarkerFinder(BufferedImage img) {
         this.image = img;
-        getMarkerCoordinate();
+        findMarker();
     }
 
-    public BufferedImage[] devideImage() {
-
-        BufferedImage[] subImg = new BufferedImage[4];
-        subImg[0] = image.getSubimage(0, 0, width, height);
-        subImg[1] = image.getSubimage(width, 0, width, height);
-        subImg[2] = image.getSubimage(0, height, width, height);
-        subImg[3] = image.getSubimage(width, height, width, height);
-        return subImg;
-    }
-
-    public void getMarkerCoordinate() {
+    public void findMarker() {
         width = image.getWidth() / 2;
         height = image.getHeight() / 2;
 
-        List<FinderPattern> findMarker;
+        List<FinderPatternEx> findMarker;
 
         findMarker = find(0, 0, width, height, image);
         if (findMarker.size() == 1) {
@@ -75,27 +64,33 @@ public class MarkerFinder {
         }
     }
 
-    public FinderPattern getBottomLeft() {
+    public FinderPatternEx getBottomLeft() {
         return bottomLeft;
     }
 
-    public FinderPattern getTopLeft() {
+    public FinderPatternEx getTopLeft() {
         return topLeft;
     }
 
-    public FinderPattern getTopRight() {
+    public FinderPatternEx getTopRight() {
         return topRight;
     }
+    
+    public void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
+        setBottomLeft(bottomleft);
+        setTopLeft(topLeft);
+        setTopRight(topRight);
+    }
 
-    public void setBottomLeft(FinderPattern bottomleft) {
+    private void setBottomLeft(FinderPatternEx bottomleft) {
         this.bottomLeft = bottomleft;
     }
 
-    public void setTopLeft(FinderPattern topLeft) {
+    private void setTopLeft(FinderPatternEx topLeft) {
         this.topLeft = topLeft;
     }
 
-    public void setTopRight(FinderPattern topRight) {
+    private void setTopRight(FinderPatternEx topRight) {
         this.topRight = topRight;
     }
 

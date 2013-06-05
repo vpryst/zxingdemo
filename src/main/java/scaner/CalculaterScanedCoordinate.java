@@ -40,9 +40,10 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
      * @param fileName - source file to take markers
      * @param dpiPx - set dpi of image
      * @param pageSizeHeightPt - Set size page in pt
-     * @throws IOException 
+     * @throws IOException
      */
-    public CalculaterScanedCoordinate(String fileName, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right) throws IOException {
+    public CalculaterScanedCoordinate(String fileName, int dpiPx, int pageSizeHeightPt, int left, int bottom, int top, int right)
+        throws IOException {
         this(ImageIO.read(new File(fileName)), dpiPx, pageSizeHeightPt, left, bottom, top, right);
     }
 
@@ -99,34 +100,6 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
     }
 
     /**
-     * Find relative coordinate by pixel at image
-     * 
-     * @param etalonXPx
-     * @param etalonYPx
-     * @return
-     */
-    public Point2D.Double calculateRelativeCoordinateMarkerObjectPx(int etalonXPx, int etalonYPx) {
-        double relativeX = etalonXPx - marker[1][X];
-        double relativeY = etalonYPx - marker[1][Y];
-        Point2D transformCoordinate = transformedCoordinatePoint(relativeX, relativeY);
-        return (Double) transformCoordinate;
-    }
-
-    /**
-     * Find relative coordinate by point at image
-     * 
-     * @param etalonXPt
-     * @param etalonYPt
-     * @return
-     */
-    public Point2D.Double calculateRelativeCoordinateMarkerObjectPt(int etalonXPt, int etalonYPt) {
-        double relativeX = mm2px(pt2mm(etalonXPt), dpi) - marker[1][X];
-        double relativeY = mm2px(pt2mm(pageSizeHeight - etalonYPt), dpi) - marker[1][Y];
-        Point2D transformCoordinate = transformedCoordinatePoint(relativeX, relativeY);
-        return (Double) transformCoordinate;
-    }
-
-    /**
      * Calculates the angle from centerPt to targetPt in degrees. The return should range from [0,360), rotating CLOCKWISE, 0 and 360
      * degrees represents NORTH, 90 degrees represents EAST, etc... Assumes all points are in the same coordinate space. If they are not,
      * you will need to call SwingUtilities.convertPointToScreen or equivalent on all arguments before passing them to this function.
@@ -135,7 +108,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
      * @param targetPt Point we want to calcuate the angle to.
      * @return angle in degrees. This is the angle from centerPt to targetPt.
      */
-    public static double calcRotationAngleInDegrees(Point centerPt, Point targetPt) {
+    private static double calcRotationAngleInDegrees(Point centerPt, Point targetPt) {
         // calculate the angle theta from the deltaY and deltaX values
         // (atan2 returns radians values from [-PI,PI])
         // 0 currently points EAST.
@@ -164,28 +137,15 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
     }
 
     /**
-     * Transform input coordinate relative AffineTransform
-     * 
-     * @param pX - Etalone coordinate
-     * @param pY - Etalone coordinate
-     * @return - Transformed coordinate
-     */
-    public Point2D.Double transformedCoordinatePoint(double pX, double pY) {
-        Point2D.Double pointBefore = new Point2D.Double(pX, pY);
-        Point2D.Double pointAfter = (Double) relative.transform(pointBefore, null);
-        return pointAfter;
-    }
-
-    /**
      * @param args
-     * @throws IOException 
+     * @throws IOException
      */
     public static void main(String[] args) throws IOException {
 
         final int pageDPI = 300;
         CalculaterScanedCoordinate demo =
-            new CalculaterScanedCoordinate("img/scaned_files/sc/second_page9.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36,
-                36, 559, 806);
+            new CalculaterScanedCoordinate("img/scaned_files/sc/second_page9.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36,
+                559, 806);
 
         Point2D.Double src = new Point2D.Double(49.074997, 650.0);
         // Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
@@ -248,5 +208,10 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
     public Point2D.Double getCornerMarkerPx() {
         Point2D.Double transform = new Double(finderMarker.getTopLeft().getX(), finderMarker.getTopLeft().getY());
         return transform;
+    }
+
+    @Override
+    public void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
+        finderMarker.rotateToVertical(bottomleft, topLeft, topRight);
     }
 }

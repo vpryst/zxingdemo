@@ -24,16 +24,16 @@ import com.google.zxing.ResultPoint;
  *
  * @author Sean Owen
  */
-public final class FinderPattern extends ResultPoint {
+public final class FinderPatternEx extends ResultPoint {
 
   private final float estimatedModuleSize;
   private int count;
 
-  FinderPattern(float posX, float posY, float estimatedModuleSize) {
+  FinderPatternEx(float posX, float posY, float estimatedModuleSize) {
     this(posX, posY, estimatedModuleSize, 1);
   }
 
-  private FinderPattern(float posX, float posY, float estimatedModuleSize, int count) {
+  private FinderPatternEx(float posX, float posY, float estimatedModuleSize, int count) {
     super(posX, posY);
     this.estimatedModuleSize = estimatedModuleSize;
     this.count = count;
@@ -68,12 +68,12 @@ public final class FinderPattern extends ResultPoint {
    * with a new estimate. It returns a new {@code FinderPattern} containing a weighted average
    * based on count.
    */
-  FinderPattern combineEstimate(float i, float j, float newModuleSize) {
+  FinderPatternEx combineEstimate(float i, float j, float newModuleSize) {
     int combinedCount = count + 1;
     float combinedX = (count * getX() + j) / combinedCount;
     float combinedY = (count * getY() + i) / combinedCount;
     float combinedModuleSize = (count * estimatedModuleSize + newModuleSize) / combinedCount;
-    return new FinderPattern(combinedX, combinedY, combinedModuleSize, combinedCount);
+    return new FinderPatternEx(combinedX, combinedY, combinedModuleSize, combinedCount);
   }
 
 }

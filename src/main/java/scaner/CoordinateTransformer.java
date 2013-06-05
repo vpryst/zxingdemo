@@ -40,4 +40,6 @@ public interface CoordinateTransformer {
     public Point2D.Double getCornerMarkerPx();
 
 	Double transform(Double src);
+	
+	void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight);
 }
