@@ -149,7 +149,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
             new CalculaterScanedCoordinate("img/scaned_files/sc/second_page9.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36,
                 559, 806);
 
-        Point2D.Double src = new Point2D.Double(49.074997, 650.0);
+        Point2D.Double src = new Point2D.Double(53.074997, 319.5);
         // Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
         Point2D.Double result = demo.transform(src);
 
@@ -212,8 +212,8 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
         return transform;
     }
 
-    @Override
-    public void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
-        finderMarker.rotateToVertical(bottomleft, topLeft, topRight);
-    }
+//    @Override
+//    public void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
+//        finderMarker.rotateToVertical(bottomleft, topLeft, topRight);
+//    }
 }

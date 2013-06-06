@@ -78,7 +78,7 @@ public class MarkerFinder {
         return topRight;
     }
     
-    public void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
+    private void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
         setBottomLeft(bottomleft);
         setTopLeft(topLeft);
         setTopRight(topRight);
@@ -103,14 +103,13 @@ public class MarkerFinder {
         try {
             demo = new MarkerFinder("img/scaned_files/sc/second_page3.png");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println(demo.getBottomLeft());
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
         
-        
+        System.out.println();
 
     }
 
