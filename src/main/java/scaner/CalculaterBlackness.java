@@ -28,7 +28,7 @@ public class CalculaterBlackness {
         }
     }
 
-    public void calculateBlacknesRectangle() {
+    public double calculateBlacknesRectangle() {
         int width = bitmatrix.getWidth();
         int height = bitmatrix.getHeight();
         int count = 0;
@@ -40,12 +40,14 @@ public class CalculaterBlackness {
                 }
             }
         }
-        System.out.println("Square: " + persent);
+//        System.out.println("Square: " + persent);
 
-        persent = count / persent * 100;
+        persent = count / persent;
 
-        System.out.println("Count: " + count);
-        System.err.println("Persent: " + persent);
+//        System.out.println("Count: " + count);
+//        System.err.println("Persent: " + persent);
+//        System.out.println(bitmatrix);
+        return persent;
     }
 
     /**
@@ -54,7 +56,7 @@ public class CalculaterBlackness {
     public static void main(String[] args) {
         CalculaterBlackness calculate = null;
         try {
-            calculate = new CalculaterBlackness("img/scaned_files/sub2.png");
+            calculate = new CalculaterBlackness("img/scaned_files/subOI.png");
         } catch (IOException e) {
             e.printStackTrace();
         }

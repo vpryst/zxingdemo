@@ -45,9 +45,11 @@ public class RectanglePainter {
      * @param topPt - Top position in Pt
      */
     public Point2D.Double[] calculateRectangleCoordinate(double leftPt, double bottomPt, double rightPt, double topPt) {
-        Point2D.Double topLeft = new Point2D.Double(leftPt, topPt);
-        Point2D.Double bottomRight = new Point2D.Double(rightPt, bottomPt);
-
+        Point2D.Double topLeft = new Point2D.Double(Math.round(leftPt), Math.round(topPt));
+        Point2D.Double bottomRight = new Point2D.Double(Math.round(rightPt), Math.round(bottomPt));
+        
+        System.out.println("topleft: " + topLeft + " bottomRight: " + bottomRight);
+        
         Point2D.Double pointLeftTop = scan.convertPdfToImageRelativeCoordinate(topLeft);
         Point2D.Double pointRightBottom = scan.convertPdfToImageRelativeCoordinate(bottomRight);
         Point2D.Double size = new Point2D.Double(pointRightBottom.x - pointLeftTop.x, pointRightBottom.y - pointLeftTop.y);
@@ -90,13 +92,21 @@ public class RectanglePainter {
         marker[3] = 806;
 
         String fileName = "img/scaned_files/sc/second_page9.jpg";
+        int basePageHeigh = Math.round(PageSize.A4.getHeight());
         RectanglePainter draw =
-            new RectanglePainter(fileName, pageDPI, Math.round(PageSize.A4.getHeight()), marker[0], marker[1], marker[2], marker[3]);
+            new RectanglePainter(fileName, pageDPI, basePageHeigh, marker[0], marker[1], marker[2], marker[3]);
 
         File imageFile = new File(fileName);
 
         BufferedImage img = ImageIO.read(imageFile);
 
+//        double [][] element2 = {
+//            { 49.074997, },
+//            {},
+//            {}
+//        };
+//        
+        
         double[] element = new double[4];
         //leftPt 
         element[0] = 49.074997;

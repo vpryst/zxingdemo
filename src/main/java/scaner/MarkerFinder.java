@@ -49,9 +49,9 @@ public class MarkerFinder {
         List<FinderPatternEx> findMarker;
 
         findMarker = find(0, 0, width, height, image);
-        //if (findMarker.size() == 1) {
+        if (findMarker.size() == 1) {
             setTopLeft(findMarker.get(0));
-        //}
+        }
 
         findMarker.clear();
         findMarker = find(width, 0, image.getWidth(), height, image);
