@@ -13,7 +13,7 @@ public class PDFBoxPreviewTest {
         */
        public static void main(String[] args) {
               try {
-                     String path = "IText.pdf";
+                     String path = "C:/Users/oivasiv/AppData/Local/Temp/pba_generation/16/16940d75-6510-443a-9b77-4c69d0bead60.pdf";
                      PDFBoxPreviewTest t = new PDFBoxPreviewTest();
                      t.getDocument(path);
               } catch (Exception e) {
@@ -28,9 +28,8 @@ public class PDFBoxPreviewTest {
               document = PDDocument.load(path);
 
               PDFImageWriter writer = new PDFImageWriter();
-              boolean success = writer.writeImage(document, "tiff", "", 1, 1,
-                           "myFileName", BufferedImage.TYPE_INT_RGB, Toolkit
-                                         .getDefaultToolkit().getScreenResolution());
+              boolean success = writer.writeImage(document, "png", "", 1, 5,
+                           "myFileName", BufferedImage.TYPE_INT_RGB, 300);
               System.out.println(success);
 
               return document;
