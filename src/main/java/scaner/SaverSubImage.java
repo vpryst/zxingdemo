@@ -115,7 +115,7 @@ public class SaverSubImage {
      */
     public static void main(String[] args) throws IOException {
         int pageDPI = 300;
-        String fileName = "img/scaned_files/scaile/second_page_90_rt1.jpg";
+        String fileName = "img/scaned_files/check/second_page6.jpg";
         SaverSubImage draw = new SaverSubImage(fileName, pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36, 559, 806);
 
         File imageFile = new File(fileName);

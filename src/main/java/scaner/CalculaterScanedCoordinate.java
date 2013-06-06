@@ -113,15 +113,17 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
         double distanceRealTopBottom =  finderMarker.getBottomLeft().getY() - finderMarker.getTopLeft().getY();
         double distanceRealLeftRight =  finderMarker.getTopRight().getX() - finderMarker.getTopLeft().getX();
         
-        double resaltHorizontal = distanceRealLeftRight / distanceEtalonLeftRight;
-        double resultVertical = distanceRealTopBottom / distanceEtalonTopBottom;
-        scale = (float) (resaltHorizontal > resultVertical ? resaltHorizontal : resultVertical);
+        double scaleHorizontal = distanceRealLeftRight / distanceEtalonLeftRight;
+        double scaleVertical = distanceRealTopBottom / distanceEtalonTopBottom;
+        // Intantionaly used float casting
+        scale = (float) (scaleHorizontal > scaleVertical ? scaleHorizontal : scaleVertical);
         //scale = Math.round(scale);
-        System.out.println(scale);
+        //System.out.println(scale);
+        
         scale = new BigDecimal(scale).setScale(2, RoundingMode.HALF_UP).floatValue();
-        System.out.println();
-        System.out.println(scale);
-        System.out.println(new BigDecimal(scale).setScale(2, RoundingMode.HALF_UP).floatValue());
+//        System.out.println();
+//        System.out.println(scale);
+//        System.out.println(new BigDecimal(scale).setScale(2, RoundingMode.HALF_UP).floatValue());
     }
 
     /**

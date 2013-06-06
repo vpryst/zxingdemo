@@ -64,7 +64,7 @@ public class RectanglePainter {
     public void drawRectangle(BufferedImage img, Point2D.Double[] point) {
         Graphics2D graph = img.createGraphics();
         graph.setColor(Color.RED);
-        graph.setStroke(new BasicStroke(4f));
+        graph.setStroke(new BasicStroke(8f));
 
         graph.translate(scan.getCornerMarkerPx().x, scan.getCornerMarkerPx().y);
         graph.scale(scan.getScale(), scan.getScale());
@@ -98,99 +98,28 @@ public class RectanglePainter {
         File imageFile = new File(fileName);
 
         BufferedImage img = ImageIO.read(imageFile);
-
-//        double [][] element2 = {
-//            { 49.074997, },
-//            {},
-//            {}
-//        };
-//        
+        //leftPt, bottomPt, rightPt, topPt
+        double [][] element = {
+            {49.074997, 650.0, 545.925, 782.0},
+            {53.074997, 679.0, 61.074997, 687.0},
+            {53.074997, 657.0, 61.074997, 665.0},
+            {49.074997, 240.0, 545.925, 632.0},
+            {53.074997, 311.5, 61.074997, 319.5},
+            {53.074997, 289.5, 61.074997, 297.5},
+            {53.074997, 267.5, 61.074997, 275.5},
+            {53.074997, 245.5, 61.074997, 253.5},
+            {480, 73, 532, 126}
+        };
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0][0], element[0][1], element[0][2], element[0][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[1][0], element[1][1], element[1][2], element[1][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[2][0], element[2][1], element[2][2], element[2][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[3][0], element[3][1], element[3][2], element[3][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[4][0], element[4][1], element[4][2], element[4][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[5][0], element[5][1], element[5][2], element[5][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[6][0], element[6][1], element[6][2], element[6][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[7][0], element[7][1], element[7][2], element[7][3]));
+        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[8][0], element[8][1], element[8][2], element[8][3]));
         
-        double[] element = new double[4];
-        //leftPt 
-        element[0] = 49.074997;
-        //bottomPt
-        element[1] = 650.0;
-        //rightPt
-        element[2] = 545.925;
-        //topPt
-        element[3] = 782.0;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-        
-      //leftPt 
-        element[0] = 53.074997;
-        //bottomPt
-        element[1] = 679.0;
-        //rightPt
-        element[2] = 61.074997;
-        //topPt
-        element[3] = 687.0;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-      //leftPt 
-        element[0] = 53.074997;
-        //bottomPt
-        element[1] = 657.0;
-        //rightPt
-        element[2] = 61.074997;
-        //topPt
-        element[3] = 665.0;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-
-      //leftPt 
-        element[0] = 49.074997;
-        //bottomPt
-        element[1] = 240.0;
-        //rightPt
-        element[2] = 545.925;
-        //topPt
-        element[3] = 632.0;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-      //leftPt 
-        element[0] = 53.074997;
-        //bottomPt
-        element[1] = 311.5;
-        //rightPt
-        element[2] = 61.074997;
-        //topPt
-        element[3] = 319.5;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-      //leftPt 
-        element[0] = 53.074997;
-        //bottomPt
-        element[1] = 289.5;
-        //rightPt
-        element[2] = 61.074997;
-        //topPt
-        element[3] = 297.5;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-      //leftPt 
-        element[0] = 53.074997;
-        //bottomPt
-        element[1] = 267.5;
-        //rightPt
-        element[2] = 61.074997;
-        //topPt
-        element[3] = 275.5;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-      //leftPt 
-        element[0] = 53.074997;
-        //bottomPt
-        element[1] = 245.5;
-        //rightPt
-        element[2] = 61.074997;
-        //topPt
-        element[3] = 253.5;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
-
-      //leftPt 
-        element[0] = 480;
-        //bottomPt
-        element[1] = 73;
-        //rightPt
-        element[2] = 532;
-        //topPt
-        element[3] = 126;
-        draw.drawRectangle(img, draw.calculateRectangleCoordinate(element[0], element[1], element[2], element[3]));
 
         ImageIO.write(img, "png", new File("img/scaned_files/template.png"));
 

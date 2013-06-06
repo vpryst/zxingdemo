@@ -46,7 +46,7 @@ public class CalculaterBlackness {
 
 //        System.out.println("Count: " + count);
 //        System.err.println("Persent: " + persent);
-//        System.out.println(bitmatrix);
+        System.out.println(bitmatrix);
         return persent;
     }
 
@@ -56,11 +56,11 @@ public class CalculaterBlackness {
     public static void main(String[] args) {
         CalculaterBlackness calculate = null;
         try {
-            calculate = new CalculaterBlackness("img/scaned_files/subOI.png");
+            calculate = new CalculaterBlackness("img/scaned_files/sub2.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        calculate.calculateBlacknesRectangle();
+        System.out.println(calculate.calculateBlacknesRectangle());
     }
 
 }
