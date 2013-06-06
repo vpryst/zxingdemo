@@ -4,6 +4,8 @@ import static scaner.UnitConv.mm2px;
 import static scaner.UnitConv.pt2mm;
 import static scaner.zxing.FinderPatternFinderEx.find;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -101,7 +103,7 @@ public class MarkerFinder {
         MarkerFinder demo = null;
         
         try {
-            demo = new MarkerFinder("img/scaned_files/sc/second_page3.png");
+            demo = new MarkerFinder("img/scaned_files/scaile/second_page_90_rt.jpg");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,7 +111,13 @@ public class MarkerFinder {
         System.out.println(demo.getTopLeft());
         System.out.println(demo.getTopRight());
         
-        System.out.println();
+//        System.out.println(mm2px(pt2mm(36), 300));
+//        System.out.println(mm2px(pt2mm(36), 300));
+//        System.out.println(mm2px(pt2mm(559), 300));
+//        System.out.println(mm2px(pt2mm(806), 300));
+//        Point centerPt = new Point(Math.round(demo.getBottomLeft().getX()), Math.round(demo.getBottomLeft().getY()));
+//        Point targetPt = new Point(Math.round(demo.getTopLeft().getX()), Math.round(demo.getTopLeft().getY()));
+//        System.out.println(CalculaterScanedCoordinate.calcRotationAngleInDegrees(centerPt, targetPt));
 
     }
 

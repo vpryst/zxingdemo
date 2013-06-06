@@ -10,6 +10,8 @@ import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.imageio.ImageIO;
 
@@ -32,6 +34,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
     private MarkerFinder finderMarker;
 
     private AffineTransform relative = new AffineTransform();
+    private float scale;
 
     private double left;
     private double bottom;
@@ -56,8 +59,11 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
         setPageHeight(pageSizeHeightPt);
 
         calculateMarkerPositionPt2Px();
-
+        calculateScaile();
+        
+        
         relative.setToTranslation(getCornerMarkerPx().x, getCornerMarkerPx().y);
+        relative.scale(scale, scale);
         relative.rotate(getAngle());
     }
 
@@ -100,6 +106,23 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
         marker[2][X] = mm2px(pt2mm(top), dpi);
         marker[2][Y] = mm2px(pt2mm(pageSizeHeight - right), dpi);
     }
+    
+    private void calculateScaile() {
+        double distanceEtalonTopBottom = marker[0][Y] - marker[1][Y];
+        double distanceEtalonLeftRight = marker[2][X] - marker[0][X];
+        double distanceRealTopBottom =  finderMarker.getBottomLeft().getY() - finderMarker.getTopLeft().getY();
+        double distanceRealLeftRight =  finderMarker.getTopRight().getX() - finderMarker.getTopLeft().getX();
+        
+        double resaltHorizontal = distanceRealLeftRight / distanceEtalonLeftRight;
+        double resultVertical = distanceRealTopBottom / distanceEtalonTopBottom;
+        scale = (float) (resaltHorizontal > resultVertical ? resaltHorizontal : resultVertical);
+        //scale = Math.round(scale);
+        System.out.println(scale);
+        scale = new BigDecimal(scale).setScale(2, RoundingMode.HALF_UP).floatValue();
+        System.out.println();
+        System.out.println(scale);
+        System.out.println(new BigDecimal(scale).setScale(2, RoundingMode.HALF_UP).floatValue());
+    }
 
     /**
      * Calculates the angle from centerPt to targetPt in degrees. The return should range from [0,360), rotating CLOCKWISE, 0 and 360
@@ -110,7 +133,7 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
      * @param targetPt Point we want to calcuate the angle to.
      * @return angle in degrees. This is the angle from centerPt to targetPt.
      */
-    private static double calcRotationAngleInDegrees(Point centerPt, Point targetPt) {
+    public static double calcRotationAngleInDegrees(Point centerPt, Point targetPt) {
         // calculate the angle theta from the deltaY and deltaX values
         // (atan2 returns radians values from [-PI,PI])
         // 0 currently points EAST.
@@ -146,10 +169,10 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
 
         final int pageDPI = 300;
         CalculaterScanedCoordinate demo =
-            new CalculaterScanedCoordinate("img/scaned_files/sc/second_page9.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36,
-                559, 806);
-
-        Point2D.Double src = new Point2D.Double(53.074997, 319.5);
+            //new CalculaterScanedCoordinate("img/scaned_files/sc/second_page9.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36,559, 806);
+            new CalculaterScanedCoordinate("img/scaned_files/scaile/second_page_90.jpg", pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36,559, 806);
+        //Point2D.Double src = new Point2D.Double(53.074997, 319.5);
+        Point2D.Double src = new Point2D.Double(36, 36);
         // Point2D.Double temp = demo.affineTransform(demo.convertPdfToImageRelativeCoordinate(src));
         Point2D.Double result = demo.transform(src);
 
@@ -210,6 +233,11 @@ public class CalculaterScanedCoordinate implements CoordinateTransformer {
     public Point2D.Double getCornerMarkerPx() {
         Point2D.Double transform = new Double(finderMarker.getTopLeft().getX(), finderMarker.getTopLeft().getY());
         return transform;
+    }
+
+    @Override
+    public float getScale() {
+        return scale;
     }
 
 //    @Override

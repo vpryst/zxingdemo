@@ -43,5 +43,7 @@ public interface CoordinateTransformer {
 
 	Double transform(Double src);
 	
+	float getScale();
+	
 	//void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight);
 }

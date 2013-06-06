@@ -44,7 +44,9 @@ public class SaverSubImage {
         BufferedImage after = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
         AffineTransform at = new AffineTransform();
         at.rotate(-scan.getAngle());
+        at.scale(1/scan.getScale(), 1/scan.getScale());
         at.translate(-scan.getCornerMarkerPx().x, -scan.getCornerMarkerPx().y);
+        
 
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         after = op.filter(img, null);
@@ -113,7 +115,7 @@ public class SaverSubImage {
      */
     public static void main(String[] args) throws IOException {
         int pageDPI = 300;
-        String fileName = "img/scaned_files/sc/second_page9.jpg";
+        String fileName = "img/scaned_files/scaile/second_page_90_rt1.jpg";
         SaverSubImage draw = new SaverSubImage(fileName, pageDPI, Math.round(PageSize.A4.getHeight()), 36, 36, 559, 806);
 
         File imageFile = new File(fileName);

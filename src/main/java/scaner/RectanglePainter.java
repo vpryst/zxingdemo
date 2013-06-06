@@ -48,8 +48,6 @@ public class RectanglePainter {
         Point2D.Double topLeft = new Point2D.Double(Math.round(leftPt), Math.round(topPt));
         Point2D.Double bottomRight = new Point2D.Double(Math.round(rightPt), Math.round(bottomPt));
         
-        System.out.println("topleft: " + topLeft + " bottomRight: " + bottomRight);
-        
         Point2D.Double pointLeftTop = scan.convertPdfToImageRelativeCoordinate(topLeft);
         Point2D.Double pointRightBottom = scan.convertPdfToImageRelativeCoordinate(bottomRight);
         Point2D.Double size = new Point2D.Double(pointRightBottom.x - pointLeftTop.x, pointRightBottom.y - pointLeftTop.y);
@@ -69,6 +67,7 @@ public class RectanglePainter {
         graph.setStroke(new BasicStroke(4f));
 
         graph.translate(scan.getCornerMarkerPx().x, scan.getCornerMarkerPx().y);
+        graph.scale(scan.getScale(), scan.getScale());
         graph.rotate(scan.getAngle());
 
         graph.drawRect((int) Math.round(point[0].x), (int) Math.round(point[0].y), (int) Math.round(point[1].x), (int) Math.round(point[1].y));
@@ -91,7 +90,7 @@ public class RectanglePainter {
         // right
         marker[3] = 806;
 
-        String fileName = "img/scaned_files/sc/second_page9.jpg";
+        String fileName = "img/scaned_files/scaile/second_page_90_rt.jpg";
         int basePageHeigh = Math.round(PageSize.A4.getHeight());
         RectanglePainter draw =
             new RectanglePainter(fileName, pageDPI, basePageHeigh, marker[0], marker[1], marker[2], marker[3]);
