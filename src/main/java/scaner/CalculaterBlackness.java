@@ -55,10 +55,11 @@ public class CalculaterBlackness {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println(4>>3);
+        System.out.println(32 & 7);
+        System.out.println(4 >> 3);
         CalculaterBlackness calculate = null;
         try {
-            calculate = new CalculaterBlackness("img/bugs/error.png");
+            calculate = new CalculaterBlackness("img/bugs/error11.png");
             //calculate = new CalculaterBlackness("img/1.png");
         } catch (IOException e) {
             e.printStackTrace();
