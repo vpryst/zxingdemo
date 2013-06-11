@@ -137,7 +137,7 @@ public class SimpleReadWriteBarCode {
      * @throws NotFoundException
      */
     public static String readCode(File file, Map<DecodeHintType, ?> hints) throws IOException, NotFoundException {
-        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file))));
+        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(file).getSubimage(1100, 2700, 1150, 600))));
         Result result = new MultiFormatReader().decode(binaryBitmap, hints);
         return result.getText();
     }

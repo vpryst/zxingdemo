@@ -27,7 +27,7 @@ public class MarkerFinderTest {
                 "SKMBT_22313060714040_0026.jpg", "SKMBT_22313060714040_0027.jpg", "SKMBT_22313060714040_0028.jpg",
                 "SKMBT_22313060714040_0029.jpg", "SKMBT_22313060714040_0031.jpg", "SKMBT_22313060714040_0032.jpg",
                 "SKMBT_22313060714040_0033.jpg", "SKMBT_22313060714040_0034.jpg", "SKMBT_22313060714040_0035.jpg",
-                "SKMBT_22313060714040_0037.jpg", "SKMBT_22313060714040_0038.jpg", "SKMBT_22313060714040_0039.jpg",};
+                "SKMBT_22313060714040_0037.jpg", "SKMBT_22313060714040_0038.jpg", "SKMBT_22313060714040_0039.jpg"};
         System.out.println(files.length);
         for (int i = 0; i < files.length; i++) {
             try {
@@ -303,7 +303,7 @@ public class MarkerFinderTest {
             "SimpleImages.pdf85.jpg",
             "SimpleImages.pdf88.jpg",
             "SimpleImages.pdf94.jpg",
-            "SimpleImages.pdf98.jpg",
+            "SimpleImages.pdf98.jpg"
             
             };
 

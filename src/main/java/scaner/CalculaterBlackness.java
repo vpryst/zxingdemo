@@ -6,11 +6,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import scaner.zxing.HybridBinarizerEx;
+
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.common.HybridBinarizer;
 
 public class CalculaterBlackness {
 
@@ -22,7 +23,7 @@ public class CalculaterBlackness {
 
     public CalculaterBlackness(BufferedImage image) {
         try {
-            bitmatrix = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image))).getBlackMatrix();
+            bitmatrix = new BinaryBitmap(new HybridBinarizerEx(new BufferedImageLuminanceSource(image))).getBlackMatrix();
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -54,9 +55,11 @@ public class CalculaterBlackness {
      * @param args
      */
     public static void main(String[] args) {
+        System.out.println(4>>3);
         CalculaterBlackness calculate = null;
         try {
-            calculate = new CalculaterBlackness("img/scaned_files/sub2.png");
+            calculate = new CalculaterBlackness("img/bugs/error.png");
+            //calculate = new CalculaterBlackness("img/1.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
