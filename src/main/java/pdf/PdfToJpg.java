@@ -36,7 +36,6 @@ public class PdfToJpg {
                         // PDF Subtype OK
                         if (pdfsubtype.toString().equals(PdfName.IMAGE.toString())) {
                             // image found
-                            System.out.println("hello you are fucked!");
                             byte[] img;
                             try {
                                 img = PdfReader.getStreamBytesRaw((PRStream) stream);
@@ -61,7 +60,7 @@ public class PdfToJpg {
      */
     public static void main(String[] args) throws DocumentException, IOException {
         String[] fileNamePdf = {
-            "SKMBT_22313061010260_0001.pdf",
+            /*"SKMBT_22313061010260_0001.pdf",
             "SKMBT_22313061010260_0002.pdf",
             "SKMBT_22313061010260_0003.pdf",
             "SKMBT_22313061010260_0005.pdf",
@@ -91,13 +90,14 @@ public class PdfToJpg {
             "SKMBT_22313061010260_0037.pdf",
             "SKMBT_22313061010260_0038.pdf",
             "SKMBT_22313061010260_0039.pdf",
-            "SKMBT_22313061009380.pdf"
+            "SKMBT_22313061009380.pdf"*/
+            "SimpleImages.pdf"
             
         };
         
         for (int i = 0; i<fileNamePdf.length; i++) {
         PdfToJpg pd = new PdfToJpg("img/scaned_files/pdf_scan/" + fileNamePdf[i]);
-        pd.convertPdfToJpg("img/scaned_files/pdf_scan/img/", fileNamePdf[i]);
+        pd.convertPdfToJpg("img/scaned_files/pdf_scan/img_temp/", fileNamePdf[i]);
         }
 
     }

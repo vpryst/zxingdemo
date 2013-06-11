@@ -22,7 +22,7 @@ public class TiffToJpg {
 				new FileOutputStream("SimpleImages.pdf"));
 		document.open();
 		RandomAccessFileOrArray ra = new RandomAccessFileOrArray(
-				"img/scaned_files/Lighthouse.tif");
+				"img/scaned_files/TIF_Scan/SKMBT_22313061009400.tif");
 		int pages = TiffImage.getNumberOfPages(ra);
 		for (int i = 1; i <= pages; i++) {
 			document.add(TiffImage.getTiffImage(ra, i));

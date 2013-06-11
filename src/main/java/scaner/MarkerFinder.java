@@ -48,7 +48,7 @@ public class MarkerFinder {
         width = image.getWidth() / 2;
         height = image.getHeight() / 2;
 
-        List<FinderPatternEx> findMarker;
+        List<FinderPatternEx> findMarker = null;
 
         findMarker = find(0, 0, width, height, image);
         if (findMarker.size() == 1) {
@@ -63,9 +63,11 @@ public class MarkerFinder {
 
         findMarker.clear();
         findMarker = find(0, height, width, image.getHeight(), image);
+        //System.out.println(findMarker.toString());
         if (findMarker.size() == 1) {
             setBottomLeft(findMarker.get(0));
         }
+        findMarker.clear();
     }
 
     public FinderPatternEx getBottomLeft() {
@@ -79,7 +81,7 @@ public class MarkerFinder {
     public FinderPatternEx getTopRight() {
         return topRight;
     }
-    
+
     private void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
         setBottomLeft(bottomleft);
         setTopLeft(topLeft);
@@ -99,26 +101,45 @@ public class MarkerFinder {
     }
 
     public static void main(String[] args) {
-        
         MarkerFinder demo = null;
-        
-        try {
-            demo = new MarkerFinder("img/scaned_files/scaile/second_page_90_rt.jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
+        File file = null;
+        BufferedImage img = null;
+        String[] files =
+            {"SKMBT_22313060714040_0001.jpg", "SKMBT_22313060714040_0002.jpg", "SKMBT_22313060714040_0003.jpg",
+                "SKMBT_22313060714040_0005.jpg", "SKMBT_22313060714040_0007.jpg", "SKMBT_22313060714040_0009.jpg",
+                "SKMBT_22313060714040_0010.jpg", "SKMBT_22313060714040_0011.jpg", "SKMBT_22313060714040_0013.jpg",
+                "SKMBT_22313060714040_0015.jpg", "SKMBT_22313060714040_0016.jpg", "SKMBT_22313060714040_0017.jpg",
+                "SKMBT_22313060714040_0019.jpg", "SKMBT_22313060714040_0020.jpg", "SKMBT_22313060714040_0021.jpg",
+                "SKMBT_22313060714040_0023.jpg", "SKMBT_22313060714040_0024.jpg", "SKMBT_22313060714040_0025.jpg",
+                "SKMBT_22313060714040_0026.jpg", "SKMBT_22313060714040_0027.jpg", "SKMBT_22313060714040_0028.jpg",
+                "SKMBT_22313060714040_0029.jpg", "SKMBT_22313060714040_0031.jpg", "SKMBT_22313060714040_0032.jpg",
+                "SKMBT_22313060714040_0033.jpg", "SKMBT_22313060714040_0034.jpg", "SKMBT_22313060714040_0035.jpg",
+                "SKMBT_22313060714040_0037.jpg", "SKMBT_22313060714040_0038.jpg", "SKMBT_22313060714040_0039.jpg",};
+        System.out.println(files.length);
+        for (int i = 0; i < files.length; i++) {
+            try {
+                file = new File("img/scaned_files/gray_scan/" + files[i]);
+                img = ImageIO.read(file);
+                demo = new MarkerFinder(img);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(files[i] + " " + demo.getBottomLeft());
+            System.out.println(i + " " + demo.getTopLeft());
+            System.out.println(i + " " + demo.getTopRight());
+            System.out.println();
+            img.flush();
         }
-        System.out.println(demo.getBottomLeft());
-        System.out.println(demo.getTopLeft());
-        System.out.println(demo.getTopRight());
-        
-//        System.out.println(mm2px(pt2mm(36), 300));
-//        System.out.println(mm2px(pt2mm(36), 300));
-//        System.out.println(mm2px(pt2mm(559), 300));
-//        System.out.println(mm2px(pt2mm(806), 300));
-//        Point centerPt = new Point(Math.round(demo.getBottomLeft().getX()), Math.round(demo.getBottomLeft().getY()));
-//        Point targetPt = new Point(Math.round(demo.getTopLeft().getX()), Math.round(demo.getTopLeft().getY()));
-//        System.out.println(CalculaterScanedCoordinate.calcRotationAngleInDegrees(centerPt, targetPt));
-
+        // try {
+        // file = new File("img/scaned_files/gray_scan/SKMBT_22313060714040_0026.jpg");
+        // img = ImageIO.read(file);
+        // demo = new MarkerFinder(img);
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // System.out.println(demo.getBottomLeft());
+        // System.out.println(demo.getTopLeft());
+        // System.out.println(demo.getTopRight());
     }
 
 }
