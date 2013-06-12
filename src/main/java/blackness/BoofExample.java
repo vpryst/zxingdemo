@@ -1,6 +1,7 @@
 package blackness;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -20,8 +21,11 @@ public class BoofExample {
 	public static void main(String[] args) {
 		// load and convert the image into a usable format
 		BufferedImage image = UtilImageIO
-				.loadImage("img/blackness/12_21371023110753.png");
+				.loadImage("img/blackness/p75.png");
 
+		File dir = new File("img/blackness");
+		dir.listFiles();
+		
 		// convert into a usable format
 		ImageFloat32 input = ConvertBufferedImage.convertFromSingle(image,
 				null, ImageFloat32.class);
@@ -31,7 +35,7 @@ public class BoofExample {
 		// the mean pixel value is often a reasonable threshold when creating a
 		// binary image
 		double mean = ImageStatistics.mean(input);
-		System.out.println((1 - mean / 255));
+		System.out.println((1 - mean / 255.0));
 		// create a binary image by thresholding
 		ThresholdImageOps.threshold(input, binary, (float) mean, true);
 
