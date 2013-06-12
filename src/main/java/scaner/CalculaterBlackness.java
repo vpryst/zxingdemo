@@ -59,7 +59,7 @@ public class CalculaterBlackness {
         System.out.println(4 >> 3);
         CalculaterBlackness calculate = null;
         try {
-            calculate = new CalculaterBlackness("img/bugs/error11.png");
+            calculate = new CalculaterBlackness("img/blackness/10_11371023110546_cr.png");
             //calculate = new CalculaterBlackness("img/1.png");
         } catch (IOException e) {
             e.printStackTrace();

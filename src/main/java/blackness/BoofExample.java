@@ -21,7 +21,7 @@ public class BoofExample {
 	public static void main(String[] args) {
 		// load and convert the image into a usable format
 		BufferedImage image = UtilImageIO
-				.loadImage("img/blackness/p75.png");
+				.loadImage("img/blackness/10_11371023110546.png");
 
 		File dir = new File("img/blackness");
 		dir.listFiles();
