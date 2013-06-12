@@ -6,18 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import scaner.zxing.HybridBinarizerEx;
-
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.LuminanceSource;
-import com.google.zxing.NotFoundException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
-import com.google.zxing.common.BitMatrix;
 
 public class CalculateTemp {
-    HybridBinarizerEx hib;
-    BufferedImageLuminanceSource lum;
-
     public CalculateTemp(String fileName) throws IOException {
         this(ImageIO.read(new File(fileName)));
     }
@@ -40,9 +31,9 @@ public class CalculateTemp {
      */
     public static void main(String[] args) {
         CalculateTemp calculate = null;
-        File dir = new File("img/blackness/");
+        File dir = new File("img/blackness/new/");
         for (int i = 0; i < dir.listFiles().length; i++) {
-            System.out.println(dir.listFiles()[i]);
+            System.out.print(dir.listFiles()[i] + "   ");
             try {
                 calculate = new CalculateTemp(dir.listFiles()[i].getPath());
             } catch (IOException e) {

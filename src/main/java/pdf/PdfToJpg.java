@@ -15,7 +15,6 @@ import com.lowagie.text.pdf.PdfStream;
 public class PdfToJpg {
 
     private PdfReader reader;
-    private String name; 
     
     public PdfToJpg(String filePdf) {
         try {
