@@ -22,6 +22,7 @@ import com.lowagie.text.pdf.RandomAccessFileOrArray;
 import com.lowagie.text.pdf.codec.TiffImage;
 
 public class TransformPdfTifToJpgBuf {
+
     private PdfReader reader;
     private String sourceFolder;
     private String destinationFolder;
@@ -50,8 +51,53 @@ public class TransformPdfTifToJpgBuf {
         this.destinationFolder = destinationFolder;
         this.fileName = fileName;
         this.subFileName = generateSubFileName(fileName);
-        makeFolder(sourceFolder);
-        makeFolder(destinationFolder);
+    }
+
+    public TransformPdfTifToJpgBuf(String sourceFolder, String destinationFolder, File fileName) {
+        this.sourceFolder = sourceFolder;
+        this.destinationFolder = destinationFolder;
+        this.fileName = fileName.getName();
+        this.subFileName = generateSubFileName(fileName.getName());
+    }
+
+    public static List<File> savePdfToJpg(File pdfFile, File destFolder) {
+        List<File> listFiles = new ArrayList<File>();
+        PdfReader pdfReader = null;
+        try {
+               pdfReader = new PdfReader(pdfFile.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FileOutputStream out = null;
+        for (int i = 0; i < pdfReader.getXrefSize(); i++) {
+            PdfObject pdfobj = pdfReader.getPdfObject(i);
+            if (pdfobj != null) {
+                if (pdfobj.isStream()) {
+                    PdfStream stream = (PdfStream) pdfobj;
+                    PdfObject pdfsubtype = stream.get(PdfName.SUBTYPE);
+                    if (pdfsubtype != null) {
+                        // PDF Subtype OK
+                        if (pdfsubtype.toString().equals(PdfName.IMAGE.toString())) {
+                            // image found
+                            byte[] img;
+                            try {
+                                System.out.println(destFolder);
+                                img = PdfReader.getStreamBytesRaw((PRStream) stream);
+                                File file = new File (destFolder + "/" + pdfFile.getName() + "_" + i + ".jpg");
+                                out = new FileOutputStream(file);
+                                out.write(img);
+                                listFiles.add(file);
+                                out.flush();
+                                out.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return listFiles;
     }
 
     /**
@@ -180,33 +226,31 @@ public class TransformPdfTifToJpgBuf {
         return fileName.substring(0, position);
     }
 
-    private void makeFolder(String folder) {
-        File dir = new File(folder);
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-    }
-
     /**
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
 
-        File dirTif = new File("img/scaned_files/tif_scan/"); // tif_pdf
-        System.out.println(dirTif.getPath());
-        for (int i = 0; i < dirTif.listFiles().length; i++) {
-            TransformPdfTifToJpgBuf transform =
-                new TransformPdfTifToJpgBuf("img/scaned_files/tif_scan/", "img/scaned_files/tif_scan_pdf/", dirTif.listFiles()[i].getName());
-            transform.saveTiffToJpgFile();
-
-        }
-        File dirPdf = new File("img/scaned_files/pdf_scan/"); // tif_pdf
-        System.out.println(dirPdf.getPath());
+//        File dirTif = new File("img/scaned_files/tif_scan/"); // tif_pdf
+//        System.out.println(dirTif.getPath());
+//        for (int i = 0; i < dirTif.listFiles().length; i++) {
+//            TransformPdfTifToJpgBuf transform =
+//                new TransformPdfTifToJpgBuf("img/scaned_files/tif_scan/", "img/scaned_files/tif_scan_pdf/", dirTif.listFiles()[i].getName());
+//            transform.saveTiffToJpgFile();
+//
+//        }
+//        File dirPdf = new File("img/scaned_files/pdf_scan/"); // tif_pdf
+//        System.out.println(dirPdf.getPath());
+//        for (int i = 0; i < dirPdf.listFiles().length; i++) {
+//            TransformPdfTifToJpgBuf transform =
+//                new TransformPdfTifToJpgBuf("img/scaned_files/pdf_scan/", "img/scaned_files/pdf_scan_pdf/", dirPdf.listFiles()[i].getName());
+//            transform.savePdfToJpgFile();
+//        }
+        File dirPdf = new File("img/scaned_files/pdf_scan/");
+        System.out.println(dirPdf.getName());
         for (int i = 0; i < dirPdf.listFiles().length; i++) {
-            TransformPdfTifToJpgBuf transform =
-                new TransformPdfTifToJpgBuf("img/scaned_files/pdf_scan/", "img/scaned_files/pdf_scan_pdf/", dirPdf.listFiles()[i].getName());
-            transform.savePdfToJpgFile();
+          System.out.println(TransformPdfTifToJpgBuf.savePdfToJpg(dirPdf.listFiles()[i], new File("img/scaned_files/pdf_scan_pdf/")));
         }
     }
 
