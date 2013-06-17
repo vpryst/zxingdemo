@@ -83,7 +83,7 @@ public class MarkerFinderTest {
             assertNotNull(demo.getTopRight());
         }
     }
-    @Test
+    //@Test
     public void PdfToJpgTest() {
         MarkerFinder demo = null;
         File file = null;
@@ -174,7 +174,7 @@ public class MarkerFinderTest {
             assertNotNull(demo.getTopRight());
         }
     }
-    @Test
+    //@Test
     public void TiffTest() {
         MarkerFinder demo = null;
         File file = null;
@@ -267,7 +267,7 @@ public class MarkerFinderTest {
         }
     }
     
-    @Test
+    //@Test
     public void PdfBoxTest() {
         MarkerFinder demo = null;
         File file = null;
@@ -324,6 +324,30 @@ public class MarkerFinderTest {
             assertNotNull(demo.getBottomLeft());
             assertNotNull(demo.getTopLeft());
             assertNotNull(demo.getTopRight());
+        }
+    }
+    @Test
+    public void PdfToJpgTransformTest() {
+        MarkerFinder demo = null;
+        File file = new File("img/scaned_files/pdf_scan_pdf/");
+        BufferedImage img = null;
+        
+        System.out.println(file.listFiles().length);
+        for (int i = 0; i < file.listFiles().length; i++) {
+            try {
+                img = ImageIO.read(file.listFiles()[i]);
+                demo = new MarkerFinder(img);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.print(file.listFiles()[i] + " " + demo.getBottomLeft());
+            System.out.print(demo.getTopLeft());
+            System.out.print(demo.getTopRight());
+            System.out.println();
+
+//            assertNotNull(demo.getBottomLeft());
+//            assertNotNull(demo.getTopLeft());
+//            assertNotNull(demo.getTopRight());
         }
     }
 }
