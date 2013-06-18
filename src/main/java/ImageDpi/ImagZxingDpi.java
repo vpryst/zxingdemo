@@ -1,4 +1,4 @@
-package blackness;
+package ImageDpi;
 
 import java.io.File;
 import java.io.IOException;

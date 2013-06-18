@@ -1,4 +1,4 @@
-package blackness;
+package ImageDpi;
 
 import org.w3c.dom.*;
 
