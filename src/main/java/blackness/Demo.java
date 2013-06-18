@@ -48,8 +48,6 @@ public class Demo {
                 String[] names = metadata.getMetadataFormatNames();
                 int length = names.length;
                 for (int i = 0; i < length; i++) {
-                    System.out.println("Format name: " + names[i]);
-
                     displayMetadata(metadata.getAsTree(names[i]));
                 }
             }
@@ -63,15 +61,7 @@ public class Demo {
         displayMetadata(root, 0);
     }
 
-    void indent(int level) {
-        for (int i = 0; i < level; i++)
-            System.out.print("    ");
-    }
-
     void displayMetadata(Node node, int level) {
-        // print open tag of element
-        indent(level);
-        System.out.print("<" + node.getNodeName());
         NamedNodeMap map = node.getAttributes();
         if (map != null) {
 
@@ -80,12 +70,10 @@ public class Demo {
             for (int i = 0; i < length; i++) {
                 Node attr = map.item(i);
                 if (attr.getNodeName() == "Xdensity") {
-                    System.out.print(" " + attr.getNodeName() + "=\"" + attr.getNodeValue() + "\"");
-                    //setDpiX(Integer.valueOf(attr.getNodeValue()));
+                    setDpiX(Integer.valueOf(attr.getNodeValue()));
                 }
                 if (attr.getNodeName() == "Ydensity") {
-                    System.out.print(" " + attr.getNodeName() + "=\"" + attr.getNodeValue() + "\"");
-                    //setDpiX(Integer.valueOf(attr.getNodeValue()));
+                    setDpiY(Integer.valueOf(attr.getNodeValue()));
                 }
             }
         }
@@ -93,21 +81,14 @@ public class Demo {
         Node child = node.getFirstChild();
         if (child == null) {
             // no children, so close element and return
-            System.out.println("/>");
             return;
         }
 
-        // children, so close current tag
-        System.out.println(">");
         while (child != null) {
             // print children recursively
             displayMetadata(child, level + 1);
             child = child.getNextSibling();
         }
-
-        // print close tag of element
-        indent(level);
-        System.out.println("</" + node.getNodeName() + ">");
     }
 
     public int[] getDpi() {
