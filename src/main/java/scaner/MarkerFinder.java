@@ -82,12 +82,6 @@ public class MarkerFinder {
         return topRight;
     }
 
-    private void rotateToVertical(FinderPatternEx bottomleft, FinderPatternEx topLeft, FinderPatternEx topRight) {
-        setBottomLeft(bottomleft);
-        setTopLeft(topLeft);
-        setTopRight(topRight);
-    }
-
     private void setBottomLeft(FinderPatternEx bottomleft) {
         this.bottomLeft = bottomleft;
     }
