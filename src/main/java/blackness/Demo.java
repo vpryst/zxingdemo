@@ -121,8 +121,9 @@ public class Demo {
     public void setDpiY(int dpiY) {
         this.dpi[1] = dpiY;
     }
-    public String fileType() throws Exception {
-        return reader.getFormatName();
+    public ImageReader fileType() throws Exception {
+    	//System.out.println(reader.getFormatName());
+        return reader;
     }
         
     

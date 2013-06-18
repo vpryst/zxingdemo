@@ -13,7 +13,7 @@ public class Metadata {
         Metadata meta = new Metadata();
         int length = args.length;
         //for ( int i = 0; i < length; i++ )
-            meta.readAndDisplayMetadata( "img/scaned_files_check/jpg/img_p1.jpg" );
+            meta.readAndDisplayMetadata( "img/scaned_files/Lighthouse.tif" );
     }
 
    

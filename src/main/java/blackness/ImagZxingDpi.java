@@ -22,7 +22,7 @@ public class ImagZxingDpi {
      */
     public static void main(String[] args) throws BadElementException, MalformedURLException, Exception {
         File file = new File("img/scaned_files/tif_scan/");
-        for (int i = 0; i < file.listFiles().length; i++) {
+        /*for (int i = 0; i < file.listFiles().length; i++) {
             System.out.println(file.listFiles()[i].getPath());
             System.out.println(getDpi(file.listFiles()[i].getPath())[0]);
             System.out.println(getDpi(file.listFiles()[i].getPath())[1]);
@@ -40,6 +40,12 @@ public class ImagZxingDpi {
             System.out.println(file.listFiles()[i].getPath());
             System.out.println(getDpi(file.listFiles()[i].getPath())[0]);
             System.out.println(getDpi(file.listFiles()[i].getPath())[1]);
+        }*/
+        file = new File("img/scaned_files/");
+        for (int i = 0; i < file.listFiles().length; i++) {
+            System.out.println(file.listFiles()[i].getPath());
+            System.out.println(getDpi(file.listFiles()[i].getPath())[0]);
+            System.out.println(getDpi(file.listFiles()[i].getPath())[1]);
         }
 
     }
@@ -50,12 +56,12 @@ public class ImagZxingDpi {
         Demo demo = new Demo(fileName);
         demo.readAndDisplayMetadata();
         Image img = null;
-        if (demo.fileType() == "JPEG" && demo.fileType() != null) {
+        if (demo.fileType() != null && demo.fileType().getFormatName() == "jpeg"  ) {
             dpi = demo.getDpi();
             if (dpi[0] != 0 && dpi[1] != 0 && dpi != null) {
                 return dpi;
             }
-        } else if (demo.fileType() == "JPEG" || demo.fileType() == "PNG") {
+        } else if (demo.fileType() != null && (demo.fileType().getFormatName() == "jpeg" || demo.fileType().getFormatName() == "png")) {
         
         
         img = Image.getInstance(fileName);
@@ -68,9 +74,9 @@ public class ImagZxingDpi {
         RandomAccessFileOrArray ra = new RandomAccessFileOrArray(fileName);
         int pages = TiffImage.getNumberOfPages(ra);
         for (int i = 1; i <= pages; i++) {
-            img = TiffImage.getTiffImage(ra, i);
-            dpi[0] = img.getDpiX();
-            dpi[1] = img.getDpiY();
+            TiffImage.getTiffImage(ra, i).getDpiX();
+            //dpi[0] = img.getDpiX();
+            //dpi[1] = img.getDpiY();
         }
         ra.close();
         }
