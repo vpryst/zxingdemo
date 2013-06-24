@@ -63,7 +63,7 @@ public class MarkerFinder {
 
         findMarker.clear();
         findMarker = find(0, height, width, image.getHeight(), image);
-        //System.out.println(findMarker.toString());
+        // System.out.println(findMarker.toString());
         if (findMarker.size() == 1) {
             setBottomLeft(findMarker.get(0));
         }
@@ -98,42 +98,48 @@ public class MarkerFinder {
         MarkerFinder demo = null;
         File file = null;
         BufferedImage img = null;
-        String[] files =
-            {"SKMBT_22313060714040_0001.jpg", "SKMBT_22313060714040_0002.jpg", "SKMBT_22313060714040_0003.jpg",
-                "SKMBT_22313060714040_0005.jpg", "SKMBT_22313060714040_0007.jpg", "SKMBT_22313060714040_0009.jpg",
-                "SKMBT_22313060714040_0010.jpg", "SKMBT_22313060714040_0011.jpg", "SKMBT_22313060714040_0013.jpg",
-                "SKMBT_22313060714040_0015.jpg", "SKMBT_22313060714040_0016.jpg", "SKMBT_22313060714040_0017.jpg",
-                "SKMBT_22313060714040_0019.jpg", "SKMBT_22313060714040_0020.jpg", "SKMBT_22313060714040_0021.jpg",
-                "SKMBT_22313060714040_0023.jpg", "SKMBT_22313060714040_0024.jpg", "SKMBT_22313060714040_0025.jpg",
-                "SKMBT_22313060714040_0026.jpg", "SKMBT_22313060714040_0027.jpg", "SKMBT_22313060714040_0028.jpg",
-                "SKMBT_22313060714040_0029.jpg", "SKMBT_22313060714040_0031.jpg", "SKMBT_22313060714040_0032.jpg",
-                "SKMBT_22313060714040_0033.jpg", "SKMBT_22313060714040_0034.jpg", "SKMBT_22313060714040_0035.jpg",
-                "SKMBT_22313060714040_0037.jpg", "SKMBT_22313060714040_0038.jpg", "SKMBT_22313060714040_0039.jpg",};
-        System.out.println(files.length);
-        for (int i = 0; i < files.length; i++) {
+//        String[] files =
+//            {"SKMBT_22313060714040_0001.jpg", "SKMBT_22313060714040_0002.jpg", "SKMBT_22313060714040_0003.jpg",
+//                "SKMBT_22313060714040_0005.jpg", "SKMBT_22313060714040_0007.jpg", "SKMBT_22313060714040_0009.jpg",
+//                "SKMBT_22313060714040_0010.jpg", "SKMBT_22313060714040_0011.jpg", "SKMBT_22313060714040_0013.jpg",
+//                "SKMBT_22313060714040_0015.jpg", "SKMBT_22313060714040_0016.jpg", "SKMBT_22313060714040_0017.jpg",
+//                "SKMBT_22313060714040_0019.jpg", "SKMBT_22313060714040_0020.jpg", "SKMBT_22313060714040_0021.jpg",
+//                "SKMBT_22313060714040_0023.jpg", "SKMBT_22313060714040_0024.jpg", "SKMBT_22313060714040_0025.jpg",
+//                "SKMBT_22313060714040_0026.jpg", "SKMBT_22313060714040_0027.jpg", "SKMBT_22313060714040_0028.jpg",
+//                "SKMBT_22313060714040_0029.jpg", "SKMBT_22313060714040_0031.jpg", "SKMBT_22313060714040_0032.jpg",
+//                "SKMBT_22313060714040_0033.jpg", "SKMBT_22313060714040_0034.jpg", "SKMBT_22313060714040_0035.jpg",
+//                "SKMBT_22313060714040_0037.jpg", "SKMBT_22313060714040_0038.jpg", "SKMBT_22313060714040_0039.jpg",};
+//        System.out.println(files.length);
+//        for (int i = 0; i < files.length; i++) {
+//            try {
+//                file = new File("img/scaned_files/gray_scan/" + files[i]);
+//                img = ImageIO.read(file);
+//                demo = new MarkerFinder(img);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println(files[i] + " " + demo.getBottomLeft());
+//            System.out.println(i + " " + demo.getTopLeft());
+//            System.out.println(i + " " + demo.getTopRight());
+//            System.out.println();
+//            img.flush();
+//        }
+        
+        file = new File("img/Circle/");
+        for (int i = 0; i < file.listFiles().length; i++) {
             try {
-                file = new File("img/scaned_files/gray_scan/" + files[i]);
-                img = ImageIO.read(file);
+                img = ImageIO.read(file.listFiles()[i]);
                 demo = new MarkerFinder(img);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(files[i] + " " + demo.getBottomLeft());
+            System.out.println(file.listFiles()[i] + " " + demo.getBottomLeft());
             System.out.println(i + " " + demo.getTopLeft());
             System.out.println(i + " " + demo.getTopRight());
             System.out.println();
             img.flush();
         }
-        // try {
-        // file = new File("img/scaned_files/gray_scan/SKMBT_22313060714040_0026.jpg");
-        // img = ImageIO.read(file);
-        // demo = new MarkerFinder(img);
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // System.out.println(demo.getBottomLeft());
-        // System.out.println(demo.getTopLeft());
-        // System.out.println(demo.getTopRight());
+        
     }
 
 }

@@ -452,12 +452,12 @@ public class FinderPatternFinderEx {
     }
 
     public static void main(String[] args) throws IOException, NotFoundException {
-        File file = new File("img/Circle/SKMBT_22313061919070.jpg");
+        File file = new File("img/Circle/SKMBT_22313062009070.jpg");
         BufferedImage img = ImageIO.read(file);
         // BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(img.getSubimage(0, 0, 2420,
         // 2200))));
         // FinderPatternFinderEx demo = new FinderPatternFinderEx(binaryBitmap.getBlackMatrix());
 
-        System.out.println(find(0, 0, 2480, 2000, img).toString());
+        System.out.println(find(0, 0, 2480, 3000, img).toString());
     }
 }
