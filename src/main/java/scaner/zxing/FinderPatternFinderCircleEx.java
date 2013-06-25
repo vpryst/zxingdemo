@@ -65,9 +65,9 @@ public class FinderPatternFinderCircleEx {
             e.printStackTrace();
         }
     }
-//    public List<FinderPatternEx> find() {
-//        
-//    }
+    public List<FinderPatternEx> find() {
+     return find(0, 0, image.getWidth(), image.getHeight());   
+    }
     public List<FinderPatternEx> find(int x, int y, int w, int h) {
         int maxI = h;// image.getHeight();
         int maxJ = w;// image.getWidth();
