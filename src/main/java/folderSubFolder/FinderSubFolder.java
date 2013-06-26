@@ -71,7 +71,7 @@ public class FinderSubFolder {
         }
         FinderSubFolder find = new FinderSubFolder();
         find.createMapPaths(file);
-        find.checkParentPaths();
+        System.out.println(find.checkParentPaths());
 
     }
 

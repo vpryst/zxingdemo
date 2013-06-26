@@ -14,23 +14,23 @@ import folderSubFolder.FinderSubFolder;
 
 public class FileSubFileTest {
     public FinderSubFolder find = new FinderSubFolder();
-    //@Test
+    @Test
     public void sameFileTest() {
         List<File> file = new ArrayList<File>();
         file.add(new File("img/1.png"));
         file.add(new File("img/1.png"));
         find.createMapPaths(file);
-        find.checkParentPaths();
+        System.out.println(find.checkParentPaths());
     }
-    //@Test
+    @Test
     public void diffFileTest() {
         List<File> file = new ArrayList<File>();
         file.add(new File("img/1.png"));
         file.add(new File("img/rectangle_qr.png"));
         find.createMapPaths(file);
-        find.checkParentPaths();
+        System.out.println(find.checkParentPaths());
     }
-    //@Test
+    @Test
     public void diffFolderFileTest() {
         List<File> file = new ArrayList<File>();
         file.add(new File("img/1.png"));
@@ -41,7 +41,7 @@ public class FileSubFileTest {
         System.out.println(find.checkParentPaths());
         
     }
-    //@Test
+    @Test
     public void diffGrandPaFolderFileTest() {
         List<File> file = new ArrayList<File>();
         file.add(new File("img/1.png"));
