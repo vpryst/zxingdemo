@@ -55,10 +55,9 @@ public class FontTypeEmbeded {
 
     public static void main(String[] args) throws DocumentException, IOException {
         FontFactory.defaultEmbedding = true;
-        FontFactory.register("Helvetica.afm", BaseFont.HELVETICA);
+        FontFactory.register("fonts/Helvetica.afm", BaseFont.HELVETICA);
         FontFactory.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("resources/fonts/SmashBreak.ttf", "Arial");
-        FontFactory.getFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED);
+        
 
         try {
             Document document = new Document(PageSize.A4);
@@ -125,7 +124,7 @@ public class FontTypeEmbeded {
             for (Object line : list) {
                 document.add((Element) line);
             }
-            document.add(new Paragraph("" + "", FontFactory.getFont(BaseFont.HELVETICA)));
+            document.add(new Paragraph("hjgfhjfghjfghj" + "fghjfghjf", FontFactory.getFont(BaseFont.HELVETICA)));
             
              markCircle(canvas, 36, 36, 14);
              markCircle(canvas, 36, 806, 14);
