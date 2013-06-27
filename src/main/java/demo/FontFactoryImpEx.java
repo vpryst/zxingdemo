@@ -98,46 +98,46 @@ public class FontFactoryImpEx implements FontProvider {
     public boolean defaultEmbedding = BaseFont.NOT_EMBEDDED;
     
 /** Creates new FontFactory */
-    public FontFactoryImpEx() {
-//        trueTypeFonts.setProperty(FontFactory.COURIER.toLowerCase(), FontFactory.COURIER);
-//        trueTypeFonts.setProperty(FontFactory.COURIER_BOLD.toLowerCase(), FontFactory.COURIER_BOLD);
-//        trueTypeFonts.setProperty(FontFactory.COURIER_OBLIQUE.toLowerCase(), FontFactory.COURIER_OBLIQUE);
+    public FontFactoryImpEx() { 
+        trueTypeFonts.setProperty(FontFactory.COURIER.toLowerCase(), FontFactory.COURIER);
+        trueTypeFonts.setProperty(FontFactory.COURIER_BOLD.toLowerCase(), FontFactory.COURIER_BOLD);
+        trueTypeFonts.setProperty(FontFactory.COURIER_OBLIQUE.toLowerCase(), FontFactory.COURIER_OBLIQUE);
 //        trueTypeFonts.setProperty(FontFactory.COURIER_BOLDOBLIQUE.toLowerCase(), FontFactory.COURIER_BOLDOBLIQUE);
-//        trueTypeFonts.setProperty(FontFactory.HELVETICA.toLowerCase(), FontFactory.HELVETICA);
-//        trueTypeFonts.setProperty(FontFactory.HELVETICA_BOLD.toLowerCase(), FontFactory.HELVETICA_BOLD);
-//        trueTypeFonts.setProperty(FontFactory.HELVETICA_OBLIQUE.toLowerCase(), FontFactory.HELVETICA_OBLIQUE);
+        trueTypeFonts.setProperty(FontFactory.HELVETICA.toLowerCase(), FontFactory.HELVETICA);
+        trueTypeFonts.setProperty(FontFactory.HELVETICA_BOLD.toLowerCase(), FontFactory.HELVETICA_BOLD);
+        trueTypeFonts.setProperty(FontFactory.HELVETICA_OBLIQUE.toLowerCase(), FontFactory.HELVETICA_OBLIQUE);
 //        trueTypeFonts.setProperty(FontFactory.HELVETICA_BOLDOBLIQUE.toLowerCase(), FontFactory.HELVETICA_BOLDOBLIQUE);
-//        trueTypeFonts.setProperty(FontFactory.SYMBOL.toLowerCase(), FontFactory.SYMBOL);
-        trueTypeFonts.setProperty(FontFactory.TIMES_ROMAN.toLowerCase(), FontFactory.TIMES_ROMAN);
-//        trueTypeFonts.setProperty(FontFactory.TIMES_BOLD.toLowerCase(), FontFactory.TIMES_BOLD);
-//        trueTypeFonts.setProperty(FontFactory.TIMES_ITALIC.toLowerCase(), FontFactory.TIMES_ITALIC);
-//        trueTypeFonts.setProperty(FontFactory.TIMES_BOLDITALIC.toLowerCase(), FontFactory.TIMES_BOLDITALIC);
+        trueTypeFonts.setProperty(FontFactory.SYMBOL.toLowerCase(), FontFactory.SYMBOL);
+        trueTypeFonts.setProperty(FontFactory.TIMES_ROMAN.toLowerCase(), FontFactory.TIMES_ROMAN);              
+        trueTypeFonts.setProperty(FontFactory.TIMES_BOLD.toLowerCase(), FontFactory.TIMES_BOLD);
+        trueTypeFonts.setProperty(FontFactory.TIMES_ITALIC.toLowerCase(), FontFactory.TIMES_ITALIC);
+        trueTypeFonts.setProperty(FontFactory.TIMES_BOLDITALIC.toLowerCase(), FontFactory.TIMES_BOLDITALIC);
 //        trueTypeFonts.setProperty(FontFactory.ZAPFDINGBATS.toLowerCase(), FontFactory.ZAPFDINGBATS);
-//
+
         ArrayList tmp;
         tmp = new ArrayList();
-//        tmp.add(FontFactory.COURIER);
-//        tmp.add(FontFactory.COURIER_BOLD);
-//        tmp.add(FontFactory.COURIER_OBLIQUE);
+        tmp.add(FontFactory.COURIER);
+        tmp.add(FontFactory.COURIER_BOLD);
+        tmp.add(FontFactory.COURIER_OBLIQUE);
 //        tmp.add(FontFactory.COURIER_BOLDOBLIQUE);
-//        fontFamilies.put(FontFactory.COURIER.toLowerCase(), tmp);
-//        tmp = new ArrayList();
-//        tmp.add(FontFactory.HELVETICA);
-//        tmp.add(FontFactory.HELVETICA_BOLD);
-//        tmp.add(FontFactory.HELVETICA_OBLIQUE);
+        fontFamilies.put(FontFactory.COURIER.toLowerCase(), tmp);
+        tmp = new ArrayList();
+        tmp.add(FontFactory.HELVETICA);
+        tmp.add(FontFactory.HELVETICA_BOLD);
+        tmp.add(FontFactory.HELVETICA_OBLIQUE);
 //        tmp.add(FontFactory.HELVETICA_BOLDOBLIQUE);
-//        fontFamilies.put(FontFactory.HELVETICA.toLowerCase(), tmp);
-//        tmp = new ArrayList();
-//        tmp.add(FontFactory.SYMBOL);
-//        fontFamilies.put(FontFactory.SYMBOL.toLowerCase(), tmp);
-//        tmp = new ArrayList();
-        tmp.add(FontFactory.TIMES_ROMAN);
-//        tmp.add(FontFactory.TIMES_BOLD);
-//        tmp.add(FontFactory.TIMES_ITALIC);
+        fontFamilies.put(FontFactory.HELVETICA.toLowerCase(), tmp);
+        tmp = new ArrayList();
+        tmp.add(FontFactory.SYMBOL);
+        fontFamilies.put(FontFactory.SYMBOL.toLowerCase(), tmp);
+        tmp = new ArrayList();
+        tmp.add(FontFactory.TIMES_ROMAN);           
+        tmp.add(FontFactory.TIMES_BOLD);
+        tmp.add(FontFactory.TIMES_ITALIC);
 //        tmp.add(FontFactory.TIMES_BOLDITALIC);
         fontFamilies.put(FontFactory.TIMES.toLowerCase(), tmp);
         fontFamilies.put(FontFactory.TIMES_ROMAN.toLowerCase(), tmp);
-//        tmp = new ArrayList();
+        tmp = new ArrayList();
 //        tmp.add(FontFactory.ZAPFDINGBATS);
 //        fontFamilies.put(FontFactory.ZAPFDINGBATS.toLowerCase(), tmp);
     }
