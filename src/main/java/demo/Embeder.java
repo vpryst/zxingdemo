@@ -26,9 +26,11 @@ public class Embeder {
     /**
      * Register Fonts by path Absolute "d:/fonts" Relative from project classPath "fonts"
      */
+    private FontFactoryImpEx impEx;
+
     public void registerFonts() {
-        FontFactory.defaultEmbedding = true;
-        FontFactory.registerDirectory("fonts"); // Absolute or Relative ClassPath path to fonts
+        impEx = new FontFactoryImpEx();
+        System.out.println(impEx.registerDirectory("fonts"));
     }
 
     public void renderText(String text) {
@@ -46,24 +48,36 @@ public class Embeder {
             document.addCreationDate();
             document.addTitle("Please read this");
 
-            document.add(new Paragraph("Courier Normal " + text, FontFactory.getFont(BaseFont.COURIER)));
-            document.add(new Paragraph("Courier Bold " + text, FontFactory.getFont(BaseFont.COURIER, 12, Font.BOLD)));
-            document.add(new Paragraph("Courier BoldItalic " + text, FontFactory.getFont(BaseFont.COURIER, 12, Font.BOLDITALIC)));
-            document.add(new Paragraph("Courier Italic " + text, FontFactory.getFont(BaseFont.COURIER, 12, Font.ITALIC)));
+            document.add(new Paragraph("Courier Normal " + text, impEx.getFont(BaseFont.COURIER, BaseFont.WINANSI, BaseFont.EMBEDDED)));
+            document.add(new Paragraph("Courier Normal " + text, impEx.getFont(BaseFont.COURIER, BaseFont.WINANSI, BaseFont.EMBEDDED, 12,
+                Font.BOLDITALIC)));
+            document.add(new Paragraph("Courier Bold " + text, impEx.getFont(BaseFont.COURIER, BaseFont.WINANSI, BaseFont.EMBEDDED, 12,
+                Font.BOLD)));
+            document.add(new Paragraph("Courier BoldItalic " + text, impEx.getFont(BaseFont.COURIER, BaseFont.WINANSI, BaseFont.EMBEDDED,
+                12, Font.BOLDITALIC)));
+            document.add(new Paragraph("Courier Italic " + text, impEx.getFont(BaseFont.COURIER, BaseFont.WINANSI, BaseFont.EMBEDDED, 12,
+                Font.ITALIC)));
 
-            document.add(new Paragraph("Helvetica Normal " + text, FontFactory.getFont(BaseFont.HELVETICA)));
-            document.add(new Paragraph("Helvetica Bold " + text, FontFactory.getFont(BaseFont.HELVETICA, 12, Font.BOLD)));
-            document.add(new Paragraph("Helvetica BoldItalic " + text, FontFactory.getFont(BaseFont.HELVETICA, 12, Font.BOLDITALIC)));
-            document.add(new Paragraph("Helvetica Italic " + text, FontFactory.getFont(BaseFont.HELVETICA, 12, Font.ITALIC)));
+            document.add(new Paragraph("Helvetica Normal " + text, impEx.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED)));
+            document.add(new Paragraph("Helvetica Bold " + text, impEx.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED, 12,
+                Font.BOLD)));
+            document.add(new Paragraph("Helvetica BoldItalic " + text, impEx.getFont(BaseFont.HELVETICA, BaseFont.WINANSI,
+                BaseFont.EMBEDDED, 12, Font.BOLDITALIC)));
+            document.add(new Paragraph("Helvetica Italic " + text, impEx.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED,
+                12, Font.ITALIC)));
 
-            document.add(new Paragraph("Symbol normal " + text, FontFactory.getFont(BaseFont.SYMBOL)));
+            document.add(new Paragraph("Symbol normal " + text, impEx.getFont(BaseFont.SYMBOL, BaseFont.WINANSI, BaseFont.EMBEDDED)));
 
-            document.add(new Paragraph("Times_roman Bold " + text, FontFactory.getFont(BaseFont.TIMES_ROMAN, 12, Font.BOLD)));
-            document.add(new Paragraph("Times_roman BoldItalic " + text, FontFactory.getFont(BaseFont.TIMES_ROMAN, 12, Font.BOLDITALIC)));
-            document.add(new Paragraph("Times_roman Italic " + text, FontFactory.getFont(BaseFont.TIMES_ROMAN, 12, Font.ITALIC)));
-            document.add(new Paragraph("Times_roman Normal " + text, FontFactory.getFont(BaseFont.TIMES_ROMAN)));
+            document.add(new Paragraph("Times_roman Bold " + text, impEx.getFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.EMBEDDED,
+                12, Font.BOLD)));
+            document.add(new Paragraph("Times_roman BoldItalic " + text, impEx.getFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI,
+                BaseFont.EMBEDDED, 12, Font.BOLDITALIC)));
+            document.add(new Paragraph("Times_roman Italic " + text, impEx.getFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI,
+                BaseFont.EMBEDDED, 12, Font.ITALIC)));
+            document.add(new Paragraph("Times_roman Normal " + text, impEx.getFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI,
+                BaseFont.EMBEDDED)));
 
-            document.add(new Paragraph("Zapfdingbats " + text, FontFactory.getFont(BaseFont.ZAPFDINGBATS)));
+            document.add(new Paragraph("Zapfdingbats " + text, impEx.getFont(BaseFont.ZAPFDINGBATS, BaseFont.WINANSI, BaseFont.EMBEDDED)));
 
             document.close();
             System.out.println("Done");
@@ -74,18 +88,23 @@ public class Embeder {
 
     }
 
-    public static class CustomFontProvider implements FontProvider {
+    private static class CustomFontProvider implements FontProvider {
+        private FontFactoryImpEx impEx;
+
+        public CustomFontProvider(FontFactoryImpEx impEx) {
+            this.impEx = impEx;
+        }
+
         public Font getFont(String fontname, String encoding, boolean embedded, float size, int style, Color color) {
             if (fontname == null || !isRegistered(fontname)) {
-                return FontFactory.getFont(BaseFont.HELVETICA, encoding, size, style, color);
+                return impEx.getFont(BaseFont.HELVETICA, encoding, true, size, style, color);
             } else {
-                return FontFactory.getFont(fontname, encoding, size, style, color);
+                return impEx.getFont(fontname, encoding, true, size, style, color);
             }
-
         }
 
         public boolean isRegistered(String fontname) {
-            return FontFactory.isRegistered(fontname);
+            return impEx.isRegistered(fontname);
         }
     }
 
@@ -95,7 +114,7 @@ public class Embeder {
             File pdfFile = File.createTempFile("iTextExample_HTML2PDF", ".pdf");
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
 
-            document.setMargins(50, 50, 50, 50);
+            document.setMargins(36, 36, 36, 36);
 
             document.open();
             document.addAuthor("Real Gagnon");
@@ -109,7 +128,7 @@ public class Embeder {
             HTMLWorker htmlWorker = new HTMLWorker(document);
 
             HashMap<String, Object> providers = new HashMap<String, Object>();
-            providers.put("font_factory", new CustomFontProvider());
+            providers.put("font_factory", new CustomFontProvider(impEx)); //
 
             ArrayList<Element> list = HTMLWorkerEx.parseToList(new StringReader(text), null, providers);
             for (Object line : list) {
@@ -168,7 +187,7 @@ public class Embeder {
                 + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;63</span>";
 
         Embeder embeder = new Embeder();
-        embeder.renderText("The quick brown fox jumps over the lazy dog");
+        // embeder.renderText("The quick brown fox jumps over the lazy dog");
         embeder.registerFonts();
         embeder.renderText("The quick brown fox jumps over the lazy dog");
         embeder.renderHTML(str);
