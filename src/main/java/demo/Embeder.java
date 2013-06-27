@@ -26,44 +26,10 @@ public class Embeder {
 
     public void registerFonts() {
         FontFactory.defaultEmbedding = true;
-        FontFactory.register("fonts/Courier.afm", BaseFont.COURIER);
-        FontFactory.getFont(BaseFont.COURIER, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Courier_Bold.afm", BaseFont.COURIER_BOLD);
-        FontFactory.getFont(BaseFont.COURIER_BOLD, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactoryImp imp = new FontFactoryImp();
-        imp.registerFamily(BaseFont.COURIER, BaseFont.COURIER_BOLDOBLIQUE, "fonts/Courier_BoldOblique.afm");
-
-        FontFactory.register("fonts/Courier_BoldOblique.afm", BaseFont.COURIER_BOLDOBLIQUE);
-        FontFactory.getFont(BaseFont.COURIER_BOLDOBLIQUE, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Courier_Oblique.afm", BaseFont.COURIER_OBLIQUE);
-        FontFactory.getFont(BaseFont.COURIER_OBLIQUE, BaseFont.WINANSI, BaseFont.EMBEDDED);
-
-        FontFactory.register("fonts/Helvetica.afm", BaseFont.HELVETICA);
-        FontFactory.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Helvetica_Bold.afm", BaseFont.HELVETICA_BOLD);
-        FontFactory.getFont(BaseFont.HELVETICA_BOLD, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Helvetica_BoldOblique.afm", BaseFont.HELVETICA_BOLDOBLIQUE);
-        FontFactory.getFont(BaseFont.HELVETICA_BOLDOBLIQUE, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Helvetica_Oblique.afm", BaseFont.HELVETICA_OBLIQUE);
-        FontFactory.getFont(BaseFont.HELVETICA_OBLIQUE, BaseFont.WINANSI, BaseFont.EMBEDDED);
-
-        FontFactory.register("fonts/Symbol.afm", BaseFont.SYMBOL);
-        FontFactory.getFont(BaseFont.SYMBOL, BaseFont.WINANSI, BaseFont.EMBEDDED);
-
-        FontFactory.register("fonts/Times_Bold.afm", BaseFont.TIMES_BOLD);
-        FontFactory.getFont(BaseFont.TIMES_BOLD, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Times_BoldItalic.afm", BaseFont.TIMES_BOLDITALIC);
-        FontFactory.getFont(BaseFont.TIMES_BOLDITALIC, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Times_Italic.afm", BaseFont.TIMES_ITALIC);
-        FontFactory.getFont(BaseFont.TIMES_ITALIC, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        FontFactory.register("fonts/Times_Roman.afm", BaseFont.TIMES_ROMAN);
-        FontFactory.getFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.EMBEDDED);
-
-        FontFactory.register("fonts/ZapfDingbats.afm", BaseFont.ZAPFDINGBATS);
-        FontFactory.getFont(BaseFont.ZAPFDINGBATS, BaseFont.WINANSI, BaseFont.EMBEDDED);
+        FontFactory.registerDirectory("fonts");
     }
 
-    public void parseText(String text) {
+    public void renderText(String text) {
         try {
             Document document = new Document(PageSize.A4);
             File pdfFile = File.createTempFile("iTextExample_HTML2PDF", ".pdf");
@@ -121,7 +87,7 @@ public class Embeder {
         }
     }
 
-    public void parseHTML(String text) {
+    public void renderHTML(String text) {
         try {
             Document document = new Document(PageSize.A4);
             File pdfFile = File.createTempFile("iTextExample_HTML2PDF", ".pdf");
@@ -200,10 +166,10 @@ public class Embeder {
                 + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;63</span>";
 
         Embeder embeder = new Embeder();
-        embeder.parseText("The quick brown fox jumps over the lazy dog");
+        embeder.renderText("The quick brown fox jumps over the lazy dog");
         embeder.registerFonts();
-        embeder.parseText("The quick brown fox jumps over the lazy dog");
-        embeder.parseHTML(str);
+        embeder.renderText("The quick brown fox jumps over the lazy dog");
+        embeder.renderHTML(str);
     }
 
 }
