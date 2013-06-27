@@ -23,10 +23,12 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class Embeder {
-
+    /**
+     * Register Fonts by path Absolute "d:/fonts" Relative from project classPath "fonts"
+     */
     public void registerFonts() {
         FontFactory.defaultEmbedding = true;
-        FontFactory.registerDirectory("fonts"); //Absolute or Relative path to fonts
+        FontFactory.registerDirectory("fonts"); // Absolute or Relative ClassPath path to fonts
     }
 
     public void renderText(String text) {
@@ -35,7 +37,7 @@ public class Embeder {
             File pdfFile = File.createTempFile("iTextExample_HTML2PDF", ".pdf");
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
 
-            document.setMargins(50, 50, 50, 50);
+            document.setMargins(36, 36, 36, 36);
 
             document.open();
             document.addAuthor("Real Gagnon");
