@@ -26,7 +26,7 @@ public class Embeder {
 
     public void registerFonts() {
         FontFactory.defaultEmbedding = true;
-        FontFactory.registerDirectory("fonts");
+        FontFactory.registerDirectory("fonts"); //Absolute or Relative path to fonts
     }
 
     public void renderText(String text) {
