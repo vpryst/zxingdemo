@@ -363,7 +363,6 @@ public class MarkupEx {
      * @since 2.1.3
      */
     public static float parseLength(String string, float actualFontSize) {
-        System.out.println("Markup.parseLength()");
         
         if (string == null)
             return 0f;
