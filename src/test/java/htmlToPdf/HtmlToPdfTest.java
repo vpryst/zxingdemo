@@ -1,41 +1,65 @@
-package demoTest;
+package htmlToPdf;
+
+import static org.junit.Assert.*;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import org.junit.Test;
 
+import com.lowagie.text.DocumentException;
+
 import demo.FontEmbedder;
-import demo.FontEmbedderTemp;
 
-public class TestFontEmbedderTemp {
-
+public class HtmlToPdfTest {
     private String fontDirectory;
 
-    public TestFontEmbedderTemp() {
+    public HtmlToPdfTest() {
         URL resource = getClass().getClassLoader().getResource("fonts");
-        this.fontDirectory = "fonts";//resource.getPath();
+        this.fontDirectory = "fonts";// resource.getPath();
     }
 
-    //@Test
-    public void renderPdfWithoutFontEmbeddig() throws Exception {
-        FontEmbedderTemp embedder = new FontEmbedderTemp("TestFontEmbedder_PdfWithoutFontEmbeddig", fontDirectory);
-        File pdfFile = embedder.renderText("The quick brown fox jumps over the lazy dog");
-        System.out.println("renderPdfWithoutFontEmbeddig : " + pdfFile);
+    // @Test
+    public void renderHtmlUlLi() throws Exception {
+        String str =
+            "<span style=\"font-size: 10;font-family: Arial;\">John has few coins.<br></span><br><ul><li><span style=\"font-size: 10;font-family: Arial;\">He stacked them in 2 coins per stack. 1 coin left.&nbsp; <br></span></li><li><span style=\"font-size: 10;font-family: Arial;\">He re-arranged them in stacks of 3, 1 coin left. <br></span></li><li><span style=\"font-size: 10;font-family: Arial;\">He re-arranged them in stacks of 4, 1 coin left.&nbsp; <br></span></li><li><span style=\"font-size: 10;font-family: Arial;\">He arranged them in stacks of 5, still 1 coin left. <br></span></li><li><span style=\"font-size: 10;font-family: Arial;\">He arranged them in stacks of 6, again 1 coin left. <br></span></li><li><span style=\"font-size: 10;font-family: Arial;\">Finally with stacks of 7 all stacks were complete with no coin left.&nbsp;&nbsp;</span><span style=\"font-size: 10;font-family: Arial;\"></span></li></ul><span style=\"font-size: 10;font-family: Arial;\"><br>How many coins John has?&nbsp; <br></span><br>";
+        FontEmbedder embedder = new FontEmbedder("TestFontEmbedder_HTMLPdfWithFontEmbeddig", fontDirectory);
+        embedder.registerFonts();
+        File pdfFile = embedder.renderHTML(str);
+        System.out.println("renderPdfWithFontEmbeddig : " + pdfFile);
         Desktop.getDesktop().open(pdfFile);
     }
 
-    @Test
-    public void renderPdfWithFontEmbeddig() throws Exception {
-        FontEmbedderTemp embedder = new FontEmbedderTemp("TestFontEmbedder_PdfWithFontEmbeddig", fontDirectory);
+    // @Test
+    public void renderHtmlSubSup() throws Exception {
+        String str =
+            "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;Cylinder</span>"
+                + "<span><font><span><span><span><sub><font><font size=\"4\"><font face=\"tahoma\">$6</font></font></font></sub></span></span></span></font></span>"
+                + "<span><font><span><span><span><sup><font><font size=\"4\"><font face=\"tahoma\">$6</font></font></font></sup><br></span></span></span></font></span>";
+        FontEmbedder embedder = new FontEmbedder("TestFontEmbedder_HTMLPdfWithFontEmbeddig", fontDirectory);
         embedder.registerFonts();
-        File pdfFile = embedder.renderText("The quick brown fox jumps over the lazy dog");
+        File pdfFile = embedder.renderHTML(str);
         System.out.println("renderPdfWithFontEmbeddig : " + pdfFile);
         Desktop.getDesktop().open(pdfFile);
     }
 
     @Test
+    public void renderHtmlFontSize() throws Exception {
+        String str =
+            "<span style=\"font-size: large;font-family: Courier;\">&nbsp;Pyramid</span>";
+//                + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;Cuboid</span>"
+//                + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;Circular Prism<br></span>"
+//                + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;Cylinder</span>";
+        FontEmbedder embedder = new FontEmbedder("TestFontEmbedder_HTMLPdfWithFontEmbeddig", fontDirectory);
+        embedder.registerFonts();
+        File pdfFile = embedder.renderHTML(str);
+        System.out.println("renderPdfWithFontEmbeddig : " + pdfFile);
+        Desktop.getDesktop().open(pdfFile);
+    }
+
+    // @Test
     public void renderHTMLPdfWithFontEmbeddig() throws Exception {
         String str =
             "<span style=\"font-size: 10; \">I was at the railway station when I heard <font size=\"4\"><b>6 tolls</b></font> of the clock. It was <b><font size=\"4\">6 o'clock</font></b>. Out of curiosity I measured that it took <font><b><font face=\"times new roman\">30 seconds for 6 tolls</font></b></font>.&nbsp; I concluded that it will take <b><font>1 minute for 12 tolls at 12 o'clock</font></b>.&nbsp; Am I correct?</span>"
@@ -76,10 +100,11 @@ public class TestFontEmbedderTemp {
                 + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;49</span>"
                 + "<span style=\"font-size: 10;font-family: Arial;\">&nbsp;63</span>";
 
-        FontEmbedderTemp embedder = new FontEmbedderTemp("TestFontEmbedder_HTMLPdfWithFontEmbeddig", fontDirectory);
+        FontEmbedder embedder = new FontEmbedder("TestFontEmbedder_HTMLPdfWithFontEmbeddig", fontDirectory);
         embedder.registerFonts();
         File pdfFile = embedder.renderHTML(str);
         System.out.println("renderPdfWithFontEmbeddig : " + pdfFile);
         Desktop.getDesktop().open(pdfFile);
     }
+
 }
